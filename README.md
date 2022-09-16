@@ -92,7 +92,7 @@ High Level Tasks
 - Beta testing / Fix bugs
 
 
-Optional Features:
-Implement Loading page between form and emotion pages
-Implement Internet not found Page UI
-Redirect button in Playlist UI to open playlist in Spotify
+### Optional Features:
+- Implement Loading page between form and emotion pages
+- Implement Internet not found Page UI
+- Redirect button in Playlist UI to open playlist in Spotify
