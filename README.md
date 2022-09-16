@@ -61,35 +61,35 @@ We will split up the work in an even manner throughout the project, on a week-by
 
 
 High Level Tasks
-Week 1
-Setup Continuous Integration for Flutter
-Setup Continuous Integration for Python
-Design Barebones Pages - 2 ppl
-Week 2
-Implement Login Page UI
-Implement Home Page UI
-Implement setting up Python
-Allow user to take picture of themself
-Week 3
-Implement Login Page functionality w/ authentication
-Send images to Backend
-Frontend Playlist Page UI
-Week 4
-Implement Playlist Creation Logic
-Implement model into Python server to get mood from picture
-Implement Music Player UI
-Week 5
-Make Music Player functional w/ spotify_sdk
-Implement Emotion UI
-Week 6
-Connect Emotion functionality to backend
-Beta Testing
-Week 7
-Beta Testing / Fix bugs
-Buffer space to catch up on previous work/implement optional features
-Week 8
-Unifying colors, fonts, transitions.
-Beta testing / Fix bugs
+#### Week 1
+- Setup Continuous Integration for Flutter
+- Setup Continuous Integration for Python
+- Design Barebones Pages - 2 ppl
+#### Week 2
+- Implement Login Page UI
+- Implement Home Page UI
+- Implement setting up Python
+- Allow user to take picture of themself
+#### Week 3
+- Implement Login Page functionality w/ authentication
+- Send images to Backend
+- Frontend Playlist Page UI
+#### Week 4
+- Implement Playlist Creation Logic
+- Implement model into Python server to get mood from picture
+- Implement Music Player UI
+#### Week 5
+- Make Music Player functional w/ spotify_sdk
+- Implement Emotion UI
+#### Week 6
+- Connect Emotion functionality to backend
+- Beta Testing
+#### Week 7
+- Beta Testing / Fix bugs
+- Buffer space to catch up on previous work/implement optional features
+#### Week 8
+- Unifying colors, fonts, transitions.
+- Beta testing / Fix bugs
 
 
 Optional Features:
