@@ -32,7 +32,7 @@ We plan to write unit and integration tests for the Python server. These tests w
 
 We decided to split up the project into 2 main components: fronted and backend. Since we need to use a python library for determining the emotion from an image, it would be easier to use a Python server for this portion of the project. We decided to include the spotify playlist generator as part of the frontend to avoid latency issues. Briefly, it would take more time for the requests to hit our external server than if we did the computation locally in the app . We plan on connecting the frontend with the backend through a REST api endpoints, including a GET endpoint to retrieve the emotion of an image. 
 
-###Continuous Integration
+### Continuous Integration
 Github PRs
 Will be working on individual branches for each feature
 When merging with the main branch, we will use the flutter_lint to ensure all of the code matches the style guide
