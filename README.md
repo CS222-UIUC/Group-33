@@ -46,18 +46,18 @@ To run unit and integration tests: flutter_test package
 Code coverage: code_coverage
 https://pub.dev/packages/code_coverage 
 
-###Risks
+### Risks
 Spotify_sdk could be difficult to use to modify the user’s spotify profile. To avoid this potential issue setting us back in the schedule, we are planning on giving ourselves some extra time and also making a list of various resources ahead of time. Also, if we cannot display the playlist and songs in the app view, we can redirect to the spotify app as well.
 We may encounter issues with setting up the CI pipeline for Flutter. There aren’t many resources available on this topic, so it may take extra time. We can switch to a React web-based service after the first week if the pipeline is too difficult.
 Our backend server may impose limits on the number of requests we send to it, or we may not be able to find a backend that has free hosting. In both cases we have a raspberry pi in which we can have more control over for acting as the server back end.
 
-###Teamwork
+### Teamwork
 We are planning on assigning tasks from the schedule to each team member at the end of the previous week, on Fridays. The Github PR at the end of the week would help keep track of the progress we’ll make. We are planning on communicating through Discord and will create separate channels for different features to organize resources. In order to avoid friction, we will work on different portions of the week’s tasks to different people, and will be available to help one another if we’re stuck at any point. At the end of the week, we all will push to our respective Github branches, and then do a combined PR, which will be reviewed by all of us. 
 
 We will split up the work in an even manner throughout the project, on a week-by-week basis. The rough guidelines that we will follow will be based on our interests. Himnish is interested in ML and UI, so we are tasking him with the algorithmic portions of the UI. Matthew is interested in the Python scripts, so he can work together with Himnish on the Python server. Divya is more inclined to work on UI/UX and is the only one experienced with Spotify, so she will be focusing on the playback UI portions. Khalid has done Flutter apps before, so he’ll be focused on UI/UX portions as well as advising others if they need help.
 
 	
-###Schedule
+### Schedule
 
 
 High Level Tasks
