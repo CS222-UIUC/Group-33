@@ -30,11 +30,18 @@ jobs:
             cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
             cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
             architecture: x64
-        - run: cd flutter
-        - run: flutter pub get
-        - run: flutter format --set-exit-if-changed .
-        - run: flutter analyze .
-        - run: flutter test test
+        
+        - name: Get Flutter dependencies
+          run: cd flutter && flutter pub get
+        
+        - name: Format Flutter files
+          run: cd flutter && flutter format --set-exit-if-changed .
+        
+        - name: Static code analysis
+          run: cd flutter && flutter analyze .
+        
+        - name: Run unit and widget tests
+          run: cd flutter && flutter test test
       
   android_integration_test:
     needs: format_lint_unit_tests
