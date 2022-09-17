@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  FLUTTER_PROJ_DIR: flutter
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -32,16 +35,16 @@ jobs:
             architecture: x64
         
         - name: Get Flutter dependencies
-          run: cd flutter && flutter pub get
+          run: cd $FLUTTER_PROJ_DIR && flutter pub get
         
         - name: Format Flutter files
-          run: cd flutter && flutter format --set-exit-if-changed .
+          run: cd $FLUTTER_PROJ_DIR && flutter format --set-exit-if-changed .
         
         - name: Static code analysis
-          run: cd flutter && flutter analyze .
+          run: cd $FLUTTER_PROJ_DIR && flutter analyze .
         
         - name: Run unit and widget tests
-          run: cd flutter && flutter test test
+          run: cd $FLUTTER_PROJ_DIR && flutter test test
       
   android_integration_test:
     needs: format_lint_unit_tests
@@ -63,11 +66,8 @@ jobs:
             cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
             architecture: x64
 
-      - name: Switch to Flutter project directory
-        run: cd flutter
-
       - name: Install Flutter dependencies
-        run: flutter pub get
+        run: cd $FLUTTER_PROJ_DIR && flutter pub get
         
       - name: AVD cache
         uses: actions/cache@v3
@@ -100,7 +100,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: flutter test integration_test --verbose
+          script: cd $FLUTTER_PROJ_DIR && flutter test integration_test --verbose
   
   
   code_coverage:
@@ -118,10 +118,13 @@ jobs:
             cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
             architecture: x64
       
-      - run: flutter --version
-      - run: cd flutter
-      - run: flutter test --coverage ./lib 
+      - name: Check Flutter version
+        run: flutter --version
+
+      - name: Generate test coverage
+        run: cd $FLUTTER_PROJ_DIR && flutter test --coverage ./lib
+
       - name: Upload files to codecov
         uses: codecov/codecov-action@v3.1.0
         with:
-          directory: coverage/
+          directory: ${{ env.FLUTTER_PROJ_DIR }}/coverage/
