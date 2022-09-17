@@ -56,8 +56,8 @@ jobs:
             cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
             architecture: x64
 
-	- name: Switch to Flutter project directory
-	  run: cd flutter
+      - name: Switch to Flutter project directory
+        run: cd flutter
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -112,7 +112,7 @@ jobs:
             architecture: x64
       
       - run: flutter --version
-	- run: cd flutter
+      - run: cd flutter
       - run: flutter test --coverage ./lib 
       - name: Upload files to codecov
         uses: codecov/codecov-action@v3.1.0
