@@ -11,6 +11,9 @@ on:
     branches: [ "main" ]
     paths:
       - 'backend/**.py'
+  
+  # for testing purposes
+  workflow_dispatch:
 
 permissions:
   contents: read
