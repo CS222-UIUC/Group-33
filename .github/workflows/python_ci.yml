@@ -1,0 +1,43 @@
+# THis is the default workflow for python that I have modified
+name: Python Backend
+
+# conditional activation
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/*.py'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'backend/*.py'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest coverage
+    - name: Linting Uisng Flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        # TODO make better options.
+        # https://flake8.pycqa.org/en/latest/user/options.html
+        flake8 . --count --show-source --statistics
+        # we want it to fail on errors, covered by the linter
+        flake8 . --count --max-complexity=10 --max-line-length=80 --statistics
+    - name: Test and coverage
+      run: |
+        coverage run -m pytest
