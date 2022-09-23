@@ -1,5 +1,5 @@
 # THis is the default workflow for python that I have modified
-name: Python Backend
+name: Python_Backend
 
 # conditional activation
 on:
