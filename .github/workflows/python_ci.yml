@@ -34,7 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest coverage
         # librarys like deepface
-        pip install -r requirments.txt
+        pip install -r .github/workflows/requirments.txt
     - name: Linting Uisng Flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
