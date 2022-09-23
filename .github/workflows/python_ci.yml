@@ -45,4 +45,4 @@ jobs:
         flake8 . --count --max-complexity=10 --max-line-length=80 --statistics
     - name: Test and coverage
       run: |
-        coverage run --rcfile=.github/workflows/.coveragerc -m pytest
+        coverage run --rcfile=.github/workflows/.coveragerc -m pytest backend/tests/
