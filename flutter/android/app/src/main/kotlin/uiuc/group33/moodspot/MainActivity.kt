@@ -1,4 +1,4 @@
-package com.example.semaphoreci_flutter_demo
+package uiuc.group33.moodspot
 
 import io.flutter.embedding.android.FlutterActivity
 
