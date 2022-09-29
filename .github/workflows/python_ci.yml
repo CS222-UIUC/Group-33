@@ -32,17 +32,17 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest coverage
+        pip install prospector[with_everything] pytest coverage
         # librarys like deepface
         pip install -r .github/workflows/requirments.txt
-    - name: Linting Uisng Flake8
+    - name: Linting Uisng Prospector
       run: |
         # stop the build if there are Python syntax errors or undefined names
         # TODO make better options.
-        # https://flake8.pycqa.org/en/latest/user/options.html
-        flake8 --count --show-source --statistics
+        cd backend
         # we want it to fail on errors, covered by the linter
-        flake8 --show-source --count --max-complexity=10 --max-line-length=80 --statistics -vv backend/
+        prospector
+        cd ..
     - name: Test and coverage
       run: |
         coverage run --rcfile=.github/workflows/.coveragerc -m pytest backend/test/
