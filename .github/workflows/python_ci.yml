@@ -37,11 +37,10 @@ jobs:
         pip install -r .github/workflows/requirments.txt
     - name: Linting Uisng Prospector
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        # TODO make better options.
+        # this will stop the build if the linter produces a nonzero output
         cd backend
-        # we want it to fail on errors, covered by the linter
-        prospector
+        # this will do something
+        prospector --strictness high
         cd ..
     - name: Test and coverage
       run: |
