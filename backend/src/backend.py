@@ -58,7 +58,7 @@ def check():
         backend.logger.debug(str(err))
         return generate_error("An error occured in the processing of the image")
 
-    except BaseException as err: # pylint: disable=broad-except
+    except BaseException as err:  # pylint: disable=broad-except
         backend.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
 
