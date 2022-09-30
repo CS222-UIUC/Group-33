@@ -44,5 +44,4 @@ jobs:
         cd ..
     - name: Test and coverage
       run: |
-        cd backend/src/backend
-        coverage run --rcfile=.github/workflows/.coveragerc -m pytest Group-33/backend/test/
+        coverage run --rcfile=.github/workflows/.coveragerc -m pytest backend/
