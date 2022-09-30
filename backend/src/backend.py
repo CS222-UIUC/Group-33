@@ -1,9 +1,10 @@
 # ok so here is what our basic flask server will look like
+import tempfile
 
 from flask import Flask
 from flask import request
 from deepface import DeepFace
-import tempfile
+
 
 backend = Flask(__name__)
 
@@ -20,8 +21,8 @@ backend.config['MAX_CONTENT_LENGTH'] = 6 * 1000 * 1000
 # msg is a string, which contains the error message to be 
 def generate_error(msg):
     return {
-        error : True,
-        msg : msg
+        "error" : True,
+        "msg" : msg
     }
 
 
@@ -30,9 +31,9 @@ def generate_error(msg):
 # this takes a deepface result and generates a json output for our app
 def generate_success( result ):
     return {
-        dominant_emotion: result["dominant_emotion"],
-        emotion: result["emotion"],
-        error: False
+        "dominant_emotion": result["dominant_emotion"],
+        "emotion": result["emotion"],
+        "error": False
     }
 
 
