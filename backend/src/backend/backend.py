@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from deepface import DeepFace
 
 
-backend = Blueprint("check",__name__)
+backend = Blueprint("check", __name__)
 
 
 # We use JSON to respond to an API call in this project
