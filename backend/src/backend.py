@@ -21,15 +21,15 @@ backend.config['MAX_CONTENT_LENGTH'] = 6 * 1000 * 1000
 # msg is a string, which contains the error message to be 
 def generate_error(msg):
     return {
-        "error" : True,
-        "msg" : msg
+        "error": True,
+        "msg": msg
     }
 
 
 # otherwise we will get a result involving this function
 
 # this takes a deepface result and generates a json output for our app
-def generate_success( result ):
+def generate_success(result):
     return {
         "dominant_emotion": result["dominant_emotion"],
         "emotion": result["emotion"],
@@ -38,31 +38,32 @@ def generate_success( result ):
 
 
 # this is our main handle for the server, you call a post request to this 
-@backend.route('/check', methods = ["POST"])
+@backend.route('/check', methods=["POST"])
 def check():
     # we assume the POST method is used based on the API's handler
-    if "file" not in request.files:
+    if "file" not in request.files :
         return generate_error("There was no file in the request")
-    else:
-        file = request.files["file"]
-        
+    
+    file = request.files["file"]
+
         result = {}
         try:
-            result = DeepFace.anaylize(img_path = tempfile.gettempdir() + "/" + file.filename, actions = ['emotion']);
+            result = DeepFace.anaylize(
+                img_path = tempfile.gettempdir() + "/" + file.filename, 
+                actions = ['emotion']
+            );
         except ValueError as err:
             # TODO (aAccount11) 
             # perhaps I could make a dumpfile for the instances when this error occures.
             backend.logger.debug(str(err))
-            return generate_error("An error occured in the processing of the image");
+            return generate_error("An error occured in the processing of the image")
         except BaseException as err:
             backend.logger.debug(str(err))
             return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
-        
+
         # this will result in JSON
         if "dominant_emotion" in result:
             # this implies that both emotion and dominant emotion are present
             return generate_success( result )
-        else:
-            return generate_error("Failed understand image")
-        
-        
+
+        return generate_error("Failed understand image")
