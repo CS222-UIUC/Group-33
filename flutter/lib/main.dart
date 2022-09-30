@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 
+// coverage:ignore-start
 void main() {
   runApp(MyApp());
 }
+// coverage:ignore-end
 
 class MyApp extends StatelessWidget {
   @override
