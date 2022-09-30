@@ -57,6 +57,8 @@ def check():
         # perhaps I could make a dumpfile for the instances when this error occures.
         backend.logger.debug(str(err))
         return generate_error("An error occured in the processing of the image")
+
+    # pylint:disable=W0703
     except BaseException as err:
         backend.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
