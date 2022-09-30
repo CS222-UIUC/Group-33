@@ -41,29 +41,29 @@ def generate_success(result):
 @backend.route('/check', methods=["POST"])
 def check():
     # we assume the POST method is used based on the API's handler
-    if "file" not in request.files :
+    if "file" not in request.files:
         return generate_error("There was no file in the request")
-    
+
     file = request.files["file"]
 
-        result = {}
-        try:
-            result = DeepFace.anaylize(
-                img_path = tempfile.gettempdir() + "/" + file.filename, 
-                actions = ['emotion']
-            );
-        except ValueError as err:
-            # TODO (aAccount11) 
-            # perhaps I could make a dumpfile for the instances when this error occures.
-            backend.logger.debug(str(err))
-            return generate_error("An error occured in the processing of the image")
-        except BaseException as err:
-            backend.logger.debug(str(err))
-            return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
+    result = {}
+    try:
+        result = DeepFace.anaylize(
+            img_path=tempfile.gettempdir() + "/" + file.filename, 
+            actions=['emotion']
+        )
+    except ValueError as err:
+        # TODO (aAccount11) 
+        # perhaps I could make a dumpfile for the instances when this error occures.
+        backend.logger.debug(str(err))
+        return generate_error("An error occured in the processing of the image")
+    except BaseException as err:
+        backend.logger.debug(str(err))
+        return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
 
-        # this will result in JSON
-        if "dominant_emotion" in result:
-            # this implies that both emotion and dominant emotion are present
-            return generate_success( result )
+    # this will result in JSON
+    if "dominant_emotion" in result:
+        # this implies that both emotion and dominant emotion are present
+        return generate_success(result)
 
-        return generate_error("Failed understand image")
+    return generate_error("Failed understand image")
