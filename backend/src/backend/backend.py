@@ -1,15 +1,12 @@
 # ok so here is what our basic flask server will look like
 import tempfile
 
-from flask import Flask
-from flask import request
+from flask import Blueprint, request
 from deepface import DeepFace
 
 
-backend = Flask(__name__)
+backend = Blueprint("check",__name__)
 
-# we prevent super large file sizes
-backend.config['MAX_CONTENT_LENGTH'] = 6 * 1000 * 1000
 
 # We use JSON to respond to an API call in this project
 #
@@ -38,7 +35,7 @@ def generate_success(result):
 
 
 # this is our main handle for the server, you call a post request to this 
-@backend.route('/check', methods=["POST"])
+@backend.route('/', methods=["POST"])
 def check():
     # we assume the POST method is used based on the API's handler
     if "file" not in request.files:
