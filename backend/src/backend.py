@@ -48,7 +48,7 @@ def check():
 
     result = {}
     try:
-        result = DeepFace.anaylize(
+        result = DeepFace.analyze(
             img_path=tempfile.gettempdir() + "/" + file.filename, 
             actions=['emotion']
         )
