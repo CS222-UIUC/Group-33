@@ -1,6 +1,4 @@
 # ok so here is what our basic flask server will look like
-import tempfile
-
 import cv2
 import numpy as np
 from flask import Blueprint, request, current_app
@@ -50,7 +48,7 @@ def check():
     try:
         # make a deep face readable image
         extracted_file_data = np.frombuffer(file.read(), dtype=np.uint8)
-        image =  cv2.imdecode(extracted_file_data, cv2.IMREAD_COLOR)
+        image = cv2.imdecode(extracted_file_data, cv2.IMREAD_COLOR)
 
         # have deepface look for an emotion
         result = DeepFace.analyze(
