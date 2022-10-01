@@ -1,4 +1,5 @@
 #import pytest
+import os.path
 from src.backend.main import create_app
 
 # so here we have to test if the software can run its desiganted functionality
@@ -8,6 +9,9 @@ def test_basic():
     # this will create the application, we need to know that works before anything else
     assert create_app()
 
+def test_whereAreImages():
+    # we look for the images in this test
+    raise Exception(os.getcwd()+"")
 
 def test_tryImage():
     # Here we test some sample images (which I got from the public domain)
@@ -17,7 +21,7 @@ def test_tryImage():
 
     # we should be posting images to the server, and getting results back
     result = client.post("/check", data={
-        "file":open("images/happy1.jpg","rb")
+        "file":open("./images/happy1.jpg","rb")
     })
     assert result.json["error"] == False and result.json["dominant_emotion"] == "happy"
     
