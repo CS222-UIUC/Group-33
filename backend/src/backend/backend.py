@@ -1,7 +1,9 @@
 # ok so here is what our basic flask server will look like
 import tempfile
 
-from flask import Blueprint, request
+import cv2
+import numpy as np
+from flask import Blueprint, request, current_app
 from deepface import DeepFace
 
 
@@ -35,6 +37,7 @@ def generate_success(result):
 
 
 # this is our main handle for the server, you call a post request to this 
+# TODO (aAccount11) change this to /check so we access it from /check
 @backend.route('/', methods=["POST"])
 def check():
     # we assume the POST method is used based on the API's handler
@@ -45,18 +48,23 @@ def check():
 
     result = {}
     try:
+        # make a deep face readable image
+        extracted_file_data = np.frombuffer(file.read(), dtype=np.uint8)
+        image =  cv2.imdecode(extracted_file_data, cv2.IMREAD_COLOR)
+
+        # have deepface look for an emotion
         result = DeepFace.analyze(
-            img_path=tempfile.gettempdir() + "/" + file.filename, 
+            img_path=image, 
             actions=['emotion']
         )
     except ValueError as err:
         # TODO (aAccount11) 
         # perhaps I could make a dumpfile for the instances when this error occures.
-        backend.logger.debug(str(err))
+        current_app.logger.debug(str(err))
         return generate_error("An error occured in the processing of the image")
 
     except BaseException as err:  # pylint: disable=broad-except
-        backend.logger.debug(str(err))
+        current_app.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
 
     # this will result in JSON
