@@ -20,6 +20,7 @@ def test_tryImage():
     result = client.post("/check", data={
         "file":open("test/images/happy1.jpg","rb")
     })
+    raise Exception(result)
     assert result.json["error"] == False and result.json["dominant_emotion"] == "happy"
     
     
