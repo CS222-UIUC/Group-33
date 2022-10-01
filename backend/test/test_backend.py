@@ -17,7 +17,7 @@ def test_tryImage():
     client = server.test_client()
 
     # we should be posting images to the server, and getting results back
-    result = client.post("/check", data={
+    result = client.post("/", data={
         "file":open("test/images/happy1.jpg","rb")
     })
     raise Exception(result)
