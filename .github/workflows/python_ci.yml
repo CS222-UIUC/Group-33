@@ -49,9 +49,10 @@ jobs:
       run: |
         cd backend
         coverage run --rcfile=.coveragerc -m pytest
+        coverage lcov -i -o coverage.lcov
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3.1.1
       with:
         # Comma-separated list of files to upload
-        files: backend/.coverage
+        files: backend/coverage.lcov
