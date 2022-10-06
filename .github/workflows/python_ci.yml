@@ -20,29 +20,38 @@ permissions:
 
 jobs:
   test_python:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Set up Python 3.9
       uses: actions/setup-python@v3
       with:
         python-version: "3.9"
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install prospector[with_everything] pytest coverage
         # librarys like deepface
-        pip install -r .github/workflows/requirments.txt
-    - name: Linting Uisng Prospector
+        pip install -r .github/workflows/requirements.txt
+    
+    - name: Linting Using Prospector
       run: |
         # this will stop the build if the linter produces a nonzero output
         cd backend
         # this will do something
         prospector --strictness high
         cd ..
-    - name: Test and coverage
+    
+    - name: Generate Coverage
       run: |
         cd backend
         coverage run --rcfile=.coveragerc -m pytest
+    
+    - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3.1.1
+        with:
+          # Comma-separated list of files to upload
+          files: backend/.coverage
