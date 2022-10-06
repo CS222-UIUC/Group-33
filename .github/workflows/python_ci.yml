@@ -51,7 +51,7 @@ jobs:
         coverage run --rcfile=.coveragerc -m pytest
     
     - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          # Comma-separated list of files to upload
-          files: backend/.coverage
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        # Comma-separated list of files to upload
+        files: backend/.coverage
