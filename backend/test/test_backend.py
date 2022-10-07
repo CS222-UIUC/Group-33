@@ -38,12 +38,12 @@ def test_tryBadFiles():
     result = client.post("/check", data={
         "file":open("test/images/twofaces.jpg","rb")
     })
+    raise str(result)
     assert result.json["error"] == True and result.msg["msg"] == "Too many faces"
 
     # finaly what happens if we load an image with out a face
     result = client.post("/check", data={
         "file":open("test/images/unknown.png","rb")
     })
-    raise str(result)
     assert result.json["error"] == True and result.json["msg"] == "An error occured in the processing of the image"
     
