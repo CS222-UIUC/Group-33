@@ -52,7 +52,8 @@ def check():
         # have deepface look for an emotion
         result = DeepFace.analyze(
             img_path=image, 
-            actions=['emotion']
+            actions=['emotion'],
+            prog_bar=False
         )
     except ValueError as err:
         # TODO (aAccount11) 
@@ -64,9 +65,6 @@ def check():
         current_app.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
 
-    # check if we have more than one face
-    if isinstance(result, list):
-        return generate_error("Too many faces")
-
+    # TODO (aAccount11) make
     # this will result in JSON
     return generate_success(result)
