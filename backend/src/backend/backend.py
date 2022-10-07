@@ -63,7 +63,7 @@ def check():
     except BaseException as err:  # pylint: disable=broad-except
         current_app.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
-    
+
     # check if we have more than one face
     if isinstance(result, list):
         return generate_error("Too many faces")
