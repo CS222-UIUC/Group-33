@@ -34,13 +34,6 @@ def test_tryBadFiles():
     # TODO (aAccount11) make the messages global variables, that we can check against
     assert result.json["error"] == True and result.json["msg"] == "There was no file in the request"
 
-    # ok well what happens if we load an image with two faces?
-    result = client.post("/check", data={
-        "file":open("test/images/twofaces.jpg","rb")
-    })
-    raise Exception(str(result.json))
-    assert result.json["error"] == True and result.msg["msg"] == "Too many faces"
-
     # finaly what happens if we load an image with out a face
     result = client.post("/check", data={
         "file":open("test/images/unknown.png","rb")
