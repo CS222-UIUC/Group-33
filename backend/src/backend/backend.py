@@ -65,7 +65,7 @@ def check():
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
     
     # check if we have more than one face
-    if type(result) == list:
+    if isinstance(result, list):
         return generate_error("Too many faces")
 
     # this will result in JSON
