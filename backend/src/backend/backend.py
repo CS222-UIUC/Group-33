@@ -35,8 +35,7 @@ def generate_success(result):
 
 
 # this is our main handle for the server, you call a post request to this 
-# TODO (aAccount11) change this to /check so we access it from /check
-@backend.route('/', methods=["POST"])
+@backend.route('/check', methods=["POST"])
 def check():
     # we assume the POST method is used based on the API's handler
     if "file" not in request.files:
@@ -64,10 +63,10 @@ def check():
     except BaseException as err:  # pylint: disable=broad-except
         current_app.logger.debug(str(err))
         return generate_error(f"Unknown Error '{err=}' has occured of type '{type(err)=}'")
+    
+    # check if we have more than one face
+    if type(result) == list:
+        return generate_error("Too many faces")
 
     # this will result in JSON
-    if "dominant_emotion" in result:
-        # this implies that both emotion and dominant emotion are present
-        return generate_success(result)
-
-    return generate_error("Failed understand image")
+    return generate_success(result)
