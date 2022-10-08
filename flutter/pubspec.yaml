@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
+  google_fonts: ^3.0.1
   logger: ^1.1.0
   provider: ^5.0.0
   spotify_sdk: ^2.3.0

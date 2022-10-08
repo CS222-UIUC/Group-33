@@ -10,9 +10,9 @@ class SizedIconButton extends StatelessWidget {
   /// [onPressed] is the callback
   const SizedIconButton(
       {Key? key,
-        required this.width,
-        required this.icon,
-        required this.onPressed})
+      required this.width,
+      required this.icon,
+      required this.onPressed})
       : super(key: key);
 
   ///[width] sets the size of the icon
