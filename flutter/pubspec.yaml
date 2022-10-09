@@ -13,6 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
+  camera:
+  path_provider:
+  path:
 
 dev_dependencies:
   flutter_test:
