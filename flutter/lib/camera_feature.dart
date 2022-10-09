@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+// import '/util/mood.dart' as enum_Mood; //CHANGE
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,15 @@ class TakePictureScreen extends StatefulWidget {
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
+}
+//added
+enum Mood {
+  angry,
+  disgust,
+  happy,
+  sad,
+  surprise,
+  neutral,
 }
 
 class TakePictureScreenState extends State<TakePictureScreen> {
@@ -114,6 +124,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             var response = await request.send();
             var topEmotion = response["dominant_emotion"];
+            //added
+            Mood mood = Mood.values.firstWhere((e) =>
+              e.toString() == 'Mood.' + topEmotion.toString()
+            );
 
             if (!mounted) return;
 
