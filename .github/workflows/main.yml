@@ -54,7 +54,6 @@ jobs:
             Write-Output "Secret file $secretFile has hash $($secretFileHash.Hash)";
             $expectedHash = "59C285C674C0714E4F54B5F6805E73E0523FA6E87E3EDA248B8B1BE3A8C7826E"; # Set to output when generating the Base64 string (and hash)
             if ($secretFileHash.Hash -ne $expectedHash) { Write-Output "::error file=$($secretFile)::Hash doesn't match"; Write-Output "Hash doesn't match"; exit 10; }
-            
           shell: pwsh
           env:
             SECRET_DATA1: ${{ secrets.B64_SECRET1 }}
@@ -162,9 +161,9 @@ jobs:
       - name: Create secret-file.txt from B64_SECRET1
         id: secret-file1
         run: |
-          $secretFile = Join-Path -Path $env:RUNNER_TEMP -ChildPath "flutter/.env"; 
+          $secretFile = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "flutter/.env"; 
           $encodedBytes = [System.Convert]::FromBase64String($env:SECRET_DATA1); 
-          Set-Content $secretFile -Value $encodedBytes -Encoding Byte;
+          Set-Content $secretFile -Value $encodedBytes -AsByteStream;
           $secretFileHash = Get-FileHash $secretFile;
           Write-Output "::set-output name=SECRET_FILE::$secretFile";
           Write-Output "::set-output name=SECRET_FILE_HASH::$($secretFileHash.Hash)";
