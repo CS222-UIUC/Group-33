@@ -47,7 +47,7 @@ jobs:
           run: |
             $secretFile = Join-Path -Path $env:RUNNER_TEMP -ChildPath "flutter/.env"; 
             $encodedBytes = [System.Convert]::FromBase64String($env:SECRET_DATA1); 
-            Set-Content $secretFile -Value $encodedBytes -Encoding Byte;
+            Set-Content $secretFile -Value $encodedBytes -AsByteStream;
             $secretFileHash = Get-FileHash $secretFile;
             Write-Output "::set-output name=SECRET_FILE::$secretFile";
             Write-Output "::set-output name=SECRET_FILE_HASH::$($secretFileHash.Hash)";
@@ -95,7 +95,7 @@ jobs:
         run: |
           $secretFile = Join-Path -Path $env:RUNNER_TEMP -ChildPath "flutter/.env"; 
           $encodedBytes = [System.Convert]::FromBase64String($env:SECRET_DATA1); 
-          Set-Content $secretFile -Value $encodedBytes -Encoding Byte;
+          Set-Content $secretFile -Value $encodedBytes -AsByteStream;
           $secretFileHash = Get-FileHash $secretFile;
           Write-Output "::set-output name=SECRET_FILE::$secretFile";
           Write-Output "::set-output name=SECRET_FILE_HASH::$($secretFileHash.Hash)";
