@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:semaphoreci_flutter_demo/main.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
-import 'package:spotify_sdk/spotify_sdk.dart';
 
 void main() {
   testWidgets('Home app should be deployed', (tester) async {

@@ -5,7 +5,7 @@ class Player extends StatefulWidget {
   const Player({Key? key}) : super(key: key);
 
   @override
-  _PlayerState createState() => _PlayerState();
+  State<Player> createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
