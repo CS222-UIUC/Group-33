@@ -61,7 +61,7 @@ class PlaylistCreation {
     for (var i = 0; i < topTracks.length; i += 50) {
       final trackSubset = topTracks.sublist(i, min(topTracks.length, i + 50));
       final trackFeatures = await getAudioFeatures(trackSubset.join(','));
-      for (final trackFeature in trackFeatures!.audioFeatures) {
+      for (final trackFeature in trackFeatures!.audio_features) {
         switch (mood) {
           case Mood.sad:
             {
@@ -211,6 +211,7 @@ class PlaylistCreation {
     );
 
     final audioFeaturesMap = await callSpotify(url);
+    setStatus(audioFeaturesMap.toString());
     return AudioFeatures.fromJson(audioFeaturesMap!);
   }
 

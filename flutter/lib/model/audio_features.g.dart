@@ -8,12 +8,12 @@ part of 'audio_features.dart';
 
 AudioFeatures _$AudioFeaturesFromJson(Map<String, dynamic> json) =>
     AudioFeatures(
-      (json['audioFeatures'] as List<dynamic>)
+      (json['audio_features'] as List<dynamic>)
           .map((e) => AudioFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$AudioFeaturesToJson(AudioFeatures instance) =>
     <String, dynamic>{
-      'audioFeatures': instance.audioFeatures,
+      'audio_features': instance.audio_features,
     };
