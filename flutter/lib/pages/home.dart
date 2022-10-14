@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => const Player(),
+          builder: (BuildContext context) => Player(_logger),
         ),
       );
     }
