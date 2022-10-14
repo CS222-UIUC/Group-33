@@ -12,11 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_dotenv: ^5.0.2
-  google_fonts: ^3.0.1
-  logger: ^1.1.0
   provider: ^5.0.0
-  spotify_sdk: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +22,4 @@ dev_dependencies:
   very_good_analysis: ^3.0.2
 
 flutter:
-  assets:
-    - .env
   uses-material-design: true
