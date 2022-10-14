@@ -42,6 +42,22 @@ jobs:
         - name: Get Flutter dependencies
           run: cd $FLUTTER_PROJ_DIR && flutter pub get
         
+        - name: Create secret-file.txt from B64_SECRET1
+          id: secret-file1
+          run: |
+            $secretFile = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "flutter/.env"; 
+            $encodedBytes = [System.Convert]::FromBase64String($env:SECRET_DATA1); 
+            Set-Content $secretFile -Value $encodedBytes -AsByteStream;
+            $secretFileHash = Get-FileHash $secretFile;
+            Write-Output "::set-output name=SECRET_FILE::$secretFile";
+            Write-Output "::set-output name=SECRET_FILE_HASH::$($secretFileHash.Hash)";
+            Write-Output "Secret file $secretFile has hash $($secretFileHash.Hash)";
+            $expectedHash = "59C285C674C0714E4F54B5F6805E73E0523FA6E87E3EDA248B8B1BE3A8C7826E"; # Set to output when generating the Base64 string (and hash)
+            if ($secretFileHash.Hash -ne $expectedHash) { Write-Output "::error file=$($secretFile)::Hash doesn't match"; Write-Output "Hash doesn't match"; exit 10; }
+          shell: pwsh
+          env:
+            SECRET_DATA1: ${{ secrets.B64_SECRET1 }}
+        
         - name: Format Flutter files
           run: cd $FLUTTER_PROJ_DIR && flutter format --set-exit-if-changed .
         
@@ -49,87 +65,12 @@ jobs:
           run: cd $FLUTTER_PROJ_DIR && flutter analyze .
         
         - name: Run unit and widget tests
-          run: cd $FLUTTER_PROJ_DIR && flutter test test
-      
-  android_integration_test:
-    needs: format_lint_unit_tests
-    runs-on: macos-11
-    strategy:
-      matrix:
-        api-level:
-          - 32
-          # you can add more API level if you want to run your tests on different API
-      fail-fast: true
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Flutter SDK
-        uses: subosito/flutter-action@v2
-        with:
-            channel: 'stable'
-            cache: true
-            cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
-            cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
-            architecture: x64
-
-      - name: Install Flutter dependencies
-        run: cd $FLUTTER_PROJ_DIR && flutter pub get
-        
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
-          
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          target: google_apis
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching."
-      
-      - name: Run integration tests
-        # more info on https://github.com/ReactiveCircus/android-emulator-runner
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          target: google_apis
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: cd $FLUTTER_PROJ_DIR && flutter test integration_test --verbose
+          run: cd $FLUTTER_PROJ_DIR && flutter test test  
   
-  
-  code_coverage:
-    needs: format_lint_unit_tests
-    
-    runs-on: macos-11
-    
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-            channel: 'stable'
-            cache: true
-            cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
-            cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
-            architecture: x64
-      
-      - name: Check Flutter version
-        run: flutter --version
+        - name: Generate test coverage
+          run: cd $FLUTTER_PROJ_DIR && flutter test --coverage ./lib
 
-      - name: Generate test coverage
-        run: cd $FLUTTER_PROJ_DIR && flutter test --coverage ./lib
-
-      - name: Upload files to codecov
-        uses: codecov/codecov-action@v3.1.0
-        with:
-          directory: ${{ env.FLUTTER_PROJ_DIR }}/coverage/
+        - name: Upload files to codecov
+          uses: codecov/codecov-action@v3.1.0
+          with:
+            directory: ${{ env.FLUTTER_PROJ_DIR }}/coverage/
