@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
+import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:semaphoreci_flutter_demo/util/playlist_creation.dart';
-
-import '../util/mood.dart';
 
 class Player extends StatefulWidget {
   final Logger logger;
@@ -44,20 +41,20 @@ class _PlayerState extends State<Player> {
               key: const ValueKey('button.logout'),
             ),
             DropdownButton<Mood>(
-                value: dropdownValue,
-                items: Mood.values.map((Mood value) {
-                  return DropdownMenuItem<Mood>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-                onChanged: (Mood? value) {
-                  playlistCreation.createSpotifyPlaylist(value!);
+              value: dropdownValue,
+              items: Mood.values.map((Mood value) {
+                return DropdownMenuItem<Mood>(
+                  value: value,
+                  child: Text(value.toString()),
+                );
+              }).toList(),
+              onChanged: (Mood? value) {
+                playlistCreation.createSpotifyPlaylist(value!);
 
-                  setState(() {
-                    dropdownValue = value;
-                  });
-                }
+                setState(() {
+                  dropdownValue = value;
+                });
+              },
             )
           ],
         ),

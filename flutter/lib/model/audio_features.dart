@@ -6,9 +6,9 @@ part 'audio_features.g.dart';
 
 @JsonSerializable()
 class AudioFeatures {
-  AudioFeatures(this.audio_features);
+  AudioFeatures(this.audioFeatures);
 
-  List<AudioFeature> audio_features;
+  List<AudioFeature> audioFeatures;
 
   factory AudioFeatures.fromJson(Map<String, dynamic> json) =>
       _$AudioFeaturesFromJson(json);

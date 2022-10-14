@@ -1,12 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:semaphoreci_flutter_demo/model/follow_artist.dart';
-
 part 'audio_feature.g.dart';
 
 @JsonSerializable()
 class AudioFeature {
-  AudioFeature(this.danceability, this.energy, this.valence, this.mode, this.uri);
+  AudioFeature(
+    this.danceability,
+    this.energy,
+    this.valence,
+    this.mode,
+    this.uri,
+  );
 
   String uri;
   double danceability;
