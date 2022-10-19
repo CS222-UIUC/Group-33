@@ -144,12 +144,7 @@ class PlaylistCreation {
       }
     }
 
-    // setStatus('Found the following top tracks: $topTracksUri');
-
-    final extractedUris =
-        topTracksUri.map((uri) => uri.split(':').last).toList();
-
-    return extractedUris;
+    return extractUris(topTracksUri);
   }
 
   Future<List<String>?> aggregateTopArtists() async {
@@ -177,13 +172,10 @@ class PlaylistCreation {
       }
     }
 
-    setStatus(topArtistsName.toString());
+    logMessage(topArtistsName.toString());
 
-    // Extract the Spotify URI
-    final extractedUri =
-        topArtistsUri.map((uri) => uri.split(':').last).toList();
-
-    return extractedUri;
+    // Extract the Spotify URIs
+    return extractUris(topArtistsUri);
   }
 
   Future<CreatePlaylist?> postNewPlaylist(String userId, String name) async {
@@ -211,7 +203,7 @@ class PlaylistCreation {
     );
 
     final audioFeaturesMap = await callSpotify(url);
-    setStatus(audioFeaturesMap.toString());
+    logMessage(audioFeaturesMap.toString());
     return AudioFeatures.fromJson(audioFeaturesMap!);
   }
 
@@ -264,19 +256,16 @@ class PlaylistCreation {
 
     // Handle response
     if (response.statusCode == 201) {
-      final jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      return jsonResponse;
+      return convert.jsonDecode(response.body) as Map<String, dynamic>;
     } else if (response.statusCode == 401) {
       return callSpotifyPost(url, body, refreshToken: true);
     } else if (response.statusCode == 400) {
-      setStatus('Request failed with status: ${response.statusCode}.');
+      logMessage('Request failed with status: ${response.statusCode}.');
       final jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
-      setStatus(jsonResponse.toString());
+      logMessage(jsonResponse.toString());
     } else {
-      setStatus('Request failed with status: ${response.statusCode}.');
-      return null;
+      logMessage('Request failed with status: ${response.statusCode}.');
     }
     return null;
   }
@@ -292,19 +281,16 @@ class PlaylistCreation {
 
     // Handle response
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      return jsonResponse;
+      return convert.jsonDecode(response.body) as Map<String, dynamic>;
     } else if (response.statusCode == 401) {
       return callSpotify(url, refreshToken: true);
     } else if (response.statusCode == 400) {
-      setStatus('Request failed with status: ${response.statusCode}.');
+      logMessage('Request failed with status: ${response.statusCode}.');
       final jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
-      setStatus(jsonResponse.toString());
+      logMessage(jsonResponse.toString());
     } else {
-      setStatus('Request failed with status: ${response.statusCode}.');
-      return null;
+      logMessage('Request failed with status: ${response.statusCode}.');
     }
     return null;
   }
@@ -324,7 +310,11 @@ class PlaylistCreation {
     return 'Bearer $authenticationToken';
   }
 
-  void setStatus(String code, {String? message}) {
+  List<String> extractUris(List<String> spotifyUris) {
+    return spotifyUris.map((uri) => uri.split(':').last).toList();
+  }
+
+  void logMessage(String code, {String? message}) {
     final text = message ?? '';
     _logger.i('$code$text');
   }
