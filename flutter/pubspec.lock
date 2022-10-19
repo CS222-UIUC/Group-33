@@ -277,7 +277,14 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
+  image_downloader:
+    dependency: "direct main"
+    description:
+      name: image_downloader
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.31.0"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -637,7 +644,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   xdg_directories:
     dependency: transitive
     description:
