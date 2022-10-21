@@ -36,8 +36,8 @@ void logError(String code, String? description) {
 //camera screen
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
-  super.key,
-  required this.camera,
+    super.key,
+    required this.camera,
   });
 
   final CameraDescription camera;
@@ -54,77 +54,74 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void initState() {
     super.initState();
     //display the current output from the Camera, create a CameraController.
-    _controller =  CameraController {
-      widget.camera,
-      ResolutionPreset.medium,
-    }
+    _controller = CameraController(widget.camera, ResolutionPreset.medium);
 
     //initialize the controller; returns a Future.
     _initializeControllerFuture = _controller.initialize();
-    }
+  }
 
-    @override
-    void dispose() {
+  @override
+  void dispose() {
     // Dispose of the controller when the widget is disposed.
     _controller.dispose();
     super.dispose();
-    }
-
-    @override
-    Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(title: const Text('Take a picture')),
-    // FutureBuilder displays a loading spinner until the controller has finished initializing.
-    body: FutureBuilder<void>(
-    future: _initializeControllerFuture,
-    builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.done) {
-    return CameraPreview(_controller);
-    } else {
-    return const Center(child: CircularProgressIndicator());
-    }
-    },
-    ),
-    floatingActionButton: FloatingActionButton(
-    //onPressed callback for taking a picture
-    onPressed: () async {
-    try {
-    await _initializeControllerFuture;
-
-    // retrieves picture
-    final image = await _controller.takePicture();
-
-    if (!mounted) return;
-
-    //display on a new screen
-    await Navigator.of(context).push(
-    MaterialPageRoute(
-    builder: (context) => DisplayPictureScreen(
-    imagePath: image.path,
-    ),
-    ),
-    );
-    } catch (e) {
-    print(e);
-    }
-    },
-    child: const Icon(Icons.camera_alt),
-    ),
-    );
-    }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Take a picture')),
+      // FutureBuilder displays a loading spinner until the controller has finished initializing.
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return CameraPreview(_controller);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        //onPressed callback for taking a picture
+        onPressed: () async {
+          try {
+            await _initializeControllerFuture;
+
+            // retrieves picture
+            final image = await _controller.takePicture();
+
+            if (!mounted) return;
+
+            //display on a new screen
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DisplayPictureScreen(
+                  imagePath: image.path,
+                ),
+              ),
+            );
+          } catch (e) {
+            print(e);
+          }
+        },
+        child: const Icon(Icons.camera_alt),
+      ),
+    );
+  }
+}
+
 //displays picture
-  class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
   const DisplayPictureScreen({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Display the Picture')),
-        body: Image.file(File(imagePath)),
-      );
-    }
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      body: Image.file(File(imagePath)),
+    );
   }
+}
