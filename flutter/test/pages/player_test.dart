@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/player.dart';
 
 void main() {
+  final logger = Logger(
+    //filter: CustomLogFilter(), // custom logfilter can be used to have logs in release mode
+    printer: PrettyPrinter(
+      printTime: true,
+    ),
+  );
+
   testWidgets('Player app should be deployed', (tester) async {
     // Define the test key.
     const testKey = ValueKey('Player Key');
-    const playerWidget = Player();
+    final playerWidget = Player(logger);
 
     // Build a MaterialApp with the testKey.
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
         home: playerWidget,
       ),
     );
@@ -22,11 +30,11 @@ void main() {
   testWidgets('Should go to Home when Logout button pressed', (tester) async {
     // Define the test key.
     const homeKey = ValueKey('Home App');
-    const playerWidget = Player();
+    final playerWidget = Player(logger);
 
     // Build a MaterialApp with the testKey.
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
         home: playerWidget,
       ),
     );
