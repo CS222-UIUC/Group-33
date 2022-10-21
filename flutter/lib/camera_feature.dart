@@ -54,10 +54,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void initState() {
     super.initState();
     //display the current output from the Camera, create a CameraController.
-    _controller = CameraController{
+    _controller =  CameraController {
       widget.camera,
-    ResolutionPreset.medium,
-    );
+      ResolutionPreset.medium,
+    }
 
     //initialize the controller; returns a Future.
     _initializeControllerFuture = _controller.initialize();
@@ -122,9 +122,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-  appBar: AppBar(title: const Text('Display the Picture')),
-  body: Image.file(File(imagePath)),
-  );
-  }
+      return Scaffold(
+        appBar: AppBar(title: const Text('Display the Picture')),
+        body: Image.file(File(imagePath)),
+      );
+    }
   }
