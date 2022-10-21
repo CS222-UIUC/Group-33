@@ -1,0 +1,58 @@
+# THis is the default workflow for python that I have modified
+name: Python_Backend
+
+# conditional activation
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**.py'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**.py'
+  
+  # for testing purposes
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test_python:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install prospector[with_everything] pytest coverage
+        # librarys like deepface
+        pip install -r .github/workflows/requirements.txt
+    
+    - name: Linting Using Prospector
+      run: |
+        # this will stop the build if the linter produces a nonzero output
+        cd backend
+        # this will do something
+        prospector --strictness high
+        cd ..
+    
+    - name: Generate Coverage
+      run: |
+        cd backend
+        coverage run --rcfile=.coveragerc -m pytest
+        coverage lcov -i -o coverage.lcov
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        # Comma-separated list of files to upload
+        files: backend/coverage.lcov
