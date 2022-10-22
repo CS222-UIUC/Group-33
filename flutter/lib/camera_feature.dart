@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:image/image.dart' as img;
+import 'package:http/http.dart' as http;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +56,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void initState() {
     super.initState();
     //display the current output from the Camera, create a CameraController.
-    _controller =  CameraController {
+    _controller =  CameraController (
       widget.camera,
       ResolutionPreset.medium,
-    }
+    );
 
     //initialize the controller; returns a Future.
     _initializeControllerFuture = _controller.initialize();
@@ -65,66 +67,96 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     @override
     void dispose() {
-    // Dispose of the controller when the widget is disposed.
-    _controller.dispose();
-    super.dispose();
+      // Dispose of the controller when the widget is disposed.
+      _controller.dispose();
+      super.dispose();
     }
 
     @override
     Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(title: const Text('Take a picture')),
-    // FutureBuilder displays a loading spinner until the controller has finished initializing.
-    body: FutureBuilder<void>(
-    future: _initializeControllerFuture,
-    builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.done) {
-    return CameraPreview(_controller);
-    } else {
-    return const Center(child: CircularProgressIndicator());
-    }
-    },
-    ),
-    floatingActionButton: FloatingActionButton(
-    //onPressed callback for taking a picture
-    onPressed: () async {
-    try {
-    await _initializeControllerFuture;
+      return Scaffold(
+        appBar: AppBar(title: const Text('Take a picture')),
+        // FutureBuilder displays a loading spinner until the controller has finished initializing.
+        body: FutureBuilder<void>(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return CameraPreview(_controller);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+        //onPressed callback for taking a picture
+        onPressed: () async {
+          try {
+            await _initializeControllerFuture;
 
-    // retrieves picture
-    final image = await _controller.takePicture();
+            // retrieves picture
+            final image = await _controller.takePicture();
+            final path = image.path;
+            final bytes = await File(path).readAsBytes();
+            final img.Image imageToAPI = img.decodeImage(bytes);
 
-    if (!mounted) return;
+            //send image to backend and retrieves emotion
+            // make a Uri from the API
+            var uri = Uri.parse('https://moodspot1.pythonanywhere.com/check');
 
-    //display on a new screen
-    await Navigator.of(context).push(
-    MaterialPageRoute(
-    builder: (context) => DisplayPictureScreen(
-    imagePath: image.path,
-    ),
-    ),
-    );
-    } catch (e) {
-    print(e);
-    }
-    },
-    child: const Icon(Icons.camera_alt),
-    ),
-    );
+            // here is our main request
+            var request = http.MultipartRequest('POST', uri)
+              ..files.add(
+                  await http.MultipartFile.fromPath(
+                      'selfiePictureRequest',     // the lable by which you must send the file
+                      imageToAPI // the image file, where ever you store that
+                  )
+              );
+
+            var response = await request.send();
+            var topEmotion;
+
+            if(response["error"] == true) {
+              topEmotion = "none";
+            } else {
+              topEmotion = response["dominant_emotion"];
+            }
+
+
+            if (!mounted) return;
+
+            //display on a new screen
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DisplayPictureScreen(
+                  imagePath: image.path,
+                ),
+              ),
+            );
+          } catch (e) {
+            print(e);
+          }
+        },
+        child: const Icon(Icons.camera_alt),
+        ),
+      );
     }
   }
 
 //displays picture
   class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
+    final String imagePath;
+    // final String emotion;
 
-  const DisplayPictureScreen({super.key, required this.imagePath});
+    const DisplayPictureScreen({super.key, required this.imagePath});
 
-  @override
-  Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Display the Picture')),
-        body: Image.file(File(imagePath)),
-      );
-    }
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Display the Picture')),
+          body: Image.file(File(imagePath)),
+          // child: const Center(
+          //   child: Text(emotion),
+          // )
+        );
+      }
   }
