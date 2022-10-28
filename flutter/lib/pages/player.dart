@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
+import 'package:semaphoreci_flutter_demo/pages/playlist_page.dart';
+
 import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:semaphoreci_flutter_demo/util/playlist_creation.dart';
 
 class Player extends StatefulWidget {
-  final Logger logger;
-  const Player(this.logger, {Key? key}) : super(key: key);
+  const Player({Key? key}) : super(key: key);
 
   @override
   State<Player> createState() => _PlayerState();
@@ -55,6 +56,10 @@ class _PlayerState extends State<Player> {
                   dropdownValue = value;
                 });
               },
+            ),
+            TextButton(
+              onPressed: playlistPageButton,
+              child: const Text('To Playlist Page'),
             )
           ],
         ),
@@ -68,6 +73,15 @@ class _PlayerState extends State<Player> {
       MaterialPageRoute<void>(
         builder: (BuildContext context) => const Home(),
       ),
+    );
+  }
+
+  void playlistPageButton() {
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => const PlaylistPage(),
+        ),
     );
   }
 }
