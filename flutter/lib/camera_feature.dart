@@ -113,14 +113,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               );
 
             var response = await request.send();
-            var topEmotion;
-
-            if(response["error"] == true) {
-              topEmotion = "none";
-            } else {
-              topEmotion = response["dominant_emotion"];
-            }
-
+            var topEmotion = response["dominant_emotion"];
 
             if (!mounted) return;
 
