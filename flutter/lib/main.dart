@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Moodspot',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        accentColor: Colors.blueAccent,
       ),
       home: const Home(),
     );
