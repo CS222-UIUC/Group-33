@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_downloader/image_downloader.dart';
+import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/camera.dart';
+import 'package:semaphoreci_flutter_demo/pages/player.dart';
 
 class EmotionPage extends StatefulWidget {
-  const EmotionPage({Key? key}) : super(key: key);
+  final Logger logger;
+  const EmotionPage(this.logger, {Key? key}) : super(key: key);
 
   @override
   State<EmotionPage> createState() => _EmotionPageState();
@@ -189,7 +189,7 @@ class _EmotionPageState extends State<EmotionPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const Camera(),
+        builder: (BuildContext context) => Camera(widget.logger),
       ),
     );
   }
@@ -198,7 +198,7 @@ class _EmotionPageState extends State<EmotionPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const EmotionPage(),
+        builder: (BuildContext context) => Player(widget.logger),
       ),
     );
   }

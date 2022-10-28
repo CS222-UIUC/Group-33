@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import 'package:semaphoreci_flutter_demo/pages/emotion_page.dart';
 
 class Camera extends StatefulWidget {
-  const Camera({Key? key}) : super(key: key);
+  final Logger logger;
+  const Camera(this.logger, {Key? key}) : super(key: key);
 
   @override
   State<Camera> createState() => _CameraState();
@@ -30,7 +32,7 @@ class _CameraState extends State<Camera> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const EmotionPage(),
+        builder: (BuildContext context) => EmotionPage(widget.logger),
       ),
     );
   }
