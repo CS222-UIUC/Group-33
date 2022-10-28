@@ -60,7 +60,7 @@ def check():
         # perhaps I could make a dumpfile for the instances when this error occures.
         current_app.logger.debug(str(err))
         return generate_error("An error occured in the processing of the image, "
-                              +"likely the image was not a face")
+                              + "likely the image was not a face")
 
     except BaseException as err:  # pylint: disable=broad-except
         current_app.logger.debug(str(err))
