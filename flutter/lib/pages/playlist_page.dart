@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:semaphoreci_flutter_demo/pages/player.dart';
+import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
+import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({Key? key}) : super(key: key);
@@ -43,14 +46,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     child: listOfSongs(),
                 ),
               ),
-              Miniplayer(
-                minHeight: 70,
-                maxHeight: 370,
-                builder: (height, percentage) {
-                  return Center(
-                    child: Text('$height, $percentage'),
-                  );
-                },
+              const DetailedPlayer(
+                  audioObject: AudioObject('Song Title', 'Artist', ''),
               )
             ],
           ),
@@ -63,7 +60,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Row(
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const Player(),
+              ),
+            );
+          },
           child: Row(
             children: [
               const Icon(
