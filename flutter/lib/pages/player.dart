@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
+import 'package:semaphoreci_flutter_demo/pages/playlist_page.dart';
 
 class Player extends StatefulWidget {
   const Player({Key? key}) : super(key: key);
@@ -24,6 +25,10 @@ class _PlayerState extends State<Player> {
               onPressed: logoutButton,
               child: const Text('Log out'),
               key: const ValueKey('button.logout'),
+            ),
+            TextButton(
+              onPressed: playlistPageButton,
+              child: const Text('To Playlist Page'),
             )
           ],
         ),
@@ -37,6 +42,15 @@ class _PlayerState extends State<Player> {
       MaterialPageRoute<void>(
         builder: (BuildContext context) => const Home(),
       ),
+    );
+  }
+
+  void playlistPageButton() {
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => const PlaylistPage(),
+        ),
     );
   }
 }

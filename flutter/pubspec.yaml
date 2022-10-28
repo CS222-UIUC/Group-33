@@ -15,6 +15,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   google_fonts: ^3.0.1
   logger: ^1.1.0
+  miniplayer: ^1.0.1
   provider: ^5.0.0
   spotify_sdk: ^2.3.0
 
@@ -28,4 +29,5 @@ dev_dependencies:
 flutter:
   assets:
     - .env
+    - img/
   uses-material-design: true
