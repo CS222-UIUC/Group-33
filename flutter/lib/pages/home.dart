@@ -210,68 +210,6 @@ class _HomeState extends State<Home> {
     return SafeArea(
         child: CustomPaint(painter: BackgroundMoodSpot(),child: mainScaffold),
     );
-    /* return SafeArea(
-      key: const ValueKey('Home App'),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('MoodSpot'),
-        ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  key: const ValueKey('button.login'),
-                  width: 0.8 * MediaQuery.of(context).size.width,
-                  child: TextButton(
-                    onPressed: loginButton,
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                      textStyle: MaterialStateProperty.all(
-                        const TextStyle(
-                          fontSize: 22,
-                        ),
-                      ),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                          vertical: 12,
-                        ),
-                      ),
-                      elevation: MaterialStateProperty.all(5),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        Text(
-                          'Login to Spotify',
-                          style: GoogleFonts.inter(
-                            color: Colors.white,
-                          ),
-                        ),
-                        const Expanded(
-                          child: Icon(
-                            Icons.chevron_right,
-                            color: Colors.white,
-                            size: 23,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    ); */
   }
 
   Future<void> loginButton() async {
