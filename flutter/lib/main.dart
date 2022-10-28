@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       key: const ValueKey('Main App'),
       title: 'Moodspot',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Colors.blueAccent,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
+            .copyWith(secondary: Colors.blueAccent),
       ),
       home: const Home(),
     );
