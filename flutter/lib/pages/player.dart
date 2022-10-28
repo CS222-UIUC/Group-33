@@ -7,7 +7,8 @@ import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:semaphoreci_flutter_demo/util/playlist_creation.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key}) : super(key: key);
+  final Logger logger;
+  const Player(this.logger, {Key? key}) : super(key: key);
 
   @override
   State<Player> createState() => _PlayerState();
@@ -77,10 +78,10 @@ class _PlayerState extends State<Player> {
   }
 
   void playlistPageButton() {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-            builder: (BuildContext context) => const PlaylistPage(),
+            builder: (BuildContext context) => PlaylistPage(widget.logger),
         ),
     );
   }

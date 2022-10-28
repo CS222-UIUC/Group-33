@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:semaphoreci_flutter_demo/pages/player.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
 
 class PlaylistPage extends StatefulWidget {
-  const PlaylistPage({Key? key}) : super(key: key);
+  final Logger logger;
+  const PlaylistPage(this.logger, {Key? key}) : super(key: key);
 
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
@@ -64,7 +66,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => const Player(),
+                builder: (BuildContext context) => Player(widget.logger),
               ),
             );
           },
