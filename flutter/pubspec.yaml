@@ -19,6 +19,7 @@ dependencies:
   logger: ^1.1.0
   provider: ^5.0.0
   spotify_sdk: ^2.3.0
+  get: ^4.6.5
 
 dev_dependencies:
   build_runner: ^2.0.0
@@ -30,6 +31,6 @@ dev_dependencies:
   very_good_analysis: ^3.0.2
 
 flutter:
-  assets:
-    - .env
+  #assets:
+  #  - .env
   uses-material-design: true
