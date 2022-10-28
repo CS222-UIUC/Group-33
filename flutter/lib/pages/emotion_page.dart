@@ -13,26 +13,9 @@ class EmotionPage extends StatefulWidget {
 }
 
 class _EmotionPageState extends State<EmotionPage> {
-  File? _imageFile;
-
   @override
   void initState() {
     super.initState();
-
-    populateImage();
-  }
-
-  Future<void> populateImage() async {
-    final imageId = await ImageDownloader.downloadImage(
-      'https://images.pexels.com/photos/2379005/pexels-photo-final9005.jpeg',
-    );
-    var path = await ImageDownloader.findPath(imageId!);
-
-    setState(
-      () {
-        _imageFile = File(path!);
-      },
-    );
   }
 
   @override
@@ -94,21 +77,23 @@ class _EmotionPageState extends State<EmotionPage> {
   }
 
   Widget imageContainer() {
-    if (_imageFile == null) {
-      return Container();
-    } else {
-      return Padding(
+    return ColorFiltered(
+      colorFilter: const ColorFilter.mode(
+        Colors.grey,
+        BlendMode.saturation,
+      ),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 45),
-        child: Image.file(_imageFile!),
-      );
-    }
+        child: Image.asset('img/default_profile_pic.jpg'),
+      ),
+    );
   }
 
   Widget displayEmotion() {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Text(
-        (_imageFile == null) ? 'Finding emotion ...' : 'Happy',
+        'Happy',
         style: GoogleFonts.inter(
           color: Colors.white,
           fontWeight: FontWeight.bold,
