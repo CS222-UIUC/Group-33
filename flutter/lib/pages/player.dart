@@ -79,10 +79,10 @@ class _PlayerState extends State<Player> {
 
   void playlistPageButton() {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => PlaylistPage(widget.logger),
-        ),
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => PlaylistPage(widget.logger),
+      ),
     );
   }
 }

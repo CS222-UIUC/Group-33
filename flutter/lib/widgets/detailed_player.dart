@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 
-import '../util/audio_object.dart';
+import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 
-final ValueNotifier<double> playerExpandProgress = ValueNotifier(playerMinHeight);
+final ValueNotifier<double> playerExpandProgress =
+    ValueNotifier(playerMinHeight);
 
 final MiniplayerController controller = MiniplayerController();
 
@@ -25,7 +26,6 @@ class DetailedPlayer extends StatelessWidget {
       controller: controller,
       elevation: 4,
       onDismissed: () {},
-      curve: Curves.easeOut,
       builder: (height, percentage) {
         final miniplayer = percentage < miniplayerPercentageDeclaration;
         final width = MediaQuery.of(context).size.width;
@@ -42,22 +42,26 @@ class DetailedPlayer extends StatelessWidget {
         //Declare additional widgets (eg. SkipButton) and variables
         if (!miniplayer) {
           var percentageExpandedPlayer = percentageFromValueInRange(
-              min: playerMaxHeight * miniplayerPercentageDeclaration +
-                  playerMinHeight,
-              max: playerMaxHeight,
-              value: height);
+            min: playerMaxHeight * miniplayerPercentageDeclaration +
+                playerMinHeight,
+            max: playerMaxHeight,
+            value: height,
+          );
           if (percentageExpandedPlayer < 0) percentageExpandedPlayer = 0;
           final paddingVertical = valueFromPercentageInRange(
-              min: 0, max: 10, percentage: percentageExpandedPlayer);
+            min: 0,
+            max: 10,
+            percentage: percentageExpandedPlayer,
+          );
           final heightWithoutPadding = height - paddingVertical * 2;
           final imageSize = heightWithoutPadding > maxImgSize
               ? maxImgSize
               : heightWithoutPadding;
           final paddingLeft = valueFromPercentageInRange(
-            min: 0,
-            max: width - imageSize,
-            percentage: percentageExpandedPlayer,
-          ) /
+                min: 0,
+                max: width - imageSize,
+                percentage: percentageExpandedPlayer,
+              ) /
               2;
 
           const buttonSkipForward = IconButton(
@@ -82,9 +86,10 @@ class DetailedPlayer extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: paddingLeft,
-                      top: paddingVertical,
-                      bottom: paddingVertical),
+                    left: paddingLeft,
+                    top: paddingVertical,
+                    bottom: paddingVertical,
+                  ),
                   child: SizedBox(
                     height: imageSize,
                     child: img,
@@ -99,18 +104,18 @@ class DetailedPlayer extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Flexible(child: text),
+                        const Flexible(child: text),
                         Flexible(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               buttonSkipBackwards,
                               buttonPlayExpanded,
                               buttonSkipForward
                             ],
                           ),
                         ),
-                        Flexible(child: progressIndicator),
+                        const Flexible(child: progressIndicator),
                         Container(),
                         Container(),
                       ],
@@ -124,10 +129,11 @@ class DetailedPlayer extends StatelessWidget {
 
         //Miniplayer
         final percentageMiniplayer = percentageFromValueInRange(
-            min: playerMinHeight,
-            max: playerMaxHeight * miniplayerPercentageDeclaration +
-                playerMinHeight,
-            value: height);
+          min: playerMinHeight,
+          max: playerMaxHeight * miniplayerPercentageDeclaration +
+              playerMinHeight,
+          value: height,
+        );
 
         final elementOpacity = 1 - 1 * percentageMiniplayer;
         final progressIndicatorHeight = 4 - 4 * percentageMiniplayer;
@@ -151,23 +157,25 @@ class DetailedPlayer extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(audioObject.title,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontSize: 16)),
+                            Text(
+                              audioObject.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(fontSize: 16),
+                            ),
                             Text(
                               audioObject.subtitle,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .color!
-                                    .withOpacity(0.55),
-                              ),
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color!
+                                        .withOpacity(0.55),
+                                  ),
                             ),
                           ],
                         ),
@@ -175,10 +183,11 @@ class DetailedPlayer extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                      icon: const Icon(Icons.fullscreen),
-                      onPressed: () {
-                        controller.animateToHeight(state: PanelState.MAX);
-                      }),
+                    icon: const Icon(Icons.fullscreen),
+                    onPressed: () {
+                      controller.animateToHeight(state: PanelState.MAX);
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(right: 3),
                     child: Opacity(
