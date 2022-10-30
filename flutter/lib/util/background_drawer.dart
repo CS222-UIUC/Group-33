@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
 import 'package:semaphoreci_flutter_demo/util/size_util.dart';
 
@@ -11,7 +13,7 @@ class BackgroundMoodSpot extends CustomPainter{
   final Path  lowerCirclePath  = Path();
   final Paint lowerCirclePaint = Paint();
 
-  static const double yTranslation = 344;
+  static const double yTranslation = 1008 - 344;
   static const double imageOffset = 599;
 
   BackgroundMoodSpot(){
@@ -31,9 +33,9 @@ class BackgroundMoodSpot extends CustomPainter{
     // upper circle
     upperCirclePath.moveTo(0, 135);
     upperCirclePath.arcToPoint(
-        const Offset(0,615),
-        radius: const Radius.circular(375),
-        largeArc: true,
+      const Offset(0,615),
+      radius: const Radius.circular(375),
+      largeArc: true,
     );
     upperCirclePath.close();
 
@@ -42,9 +44,9 @@ class BackgroundMoodSpot extends CustomPainter{
     lowerCirclePath.lineTo(1197, 1329);
     lowerCirclePath.lineTo(1197, 1047);
     lowerCirclePath.arcToPoint(
-        const Offset(703, 1329),
-        radius: const Radius.circular(320),
-        clockwise: false,
+      const Offset(703, 1329),
+      radius: const Radius.circular(320),
+      clockwise: false,
     );
     lowerCirclePath.close();
   }
@@ -62,49 +64,56 @@ class BackgroundMoodSpot extends CustomPainter{
     return m.storage;
   }
 
+  final _logger = Logger();
+
   // the goal with this is to make a background photo that can
   // dynamically resize
   @override
   void paint(Canvas canvas, Size size){
 
-    final boundedWidth = size.width > deviceSize.width
-        ? deviceSize.width : size.width;
+    final boundedWidth = size.width /*> deviceSize.width
+        ? deviceSize.width : size.width*/;
 
+    final scaleFactor = size.height/1008;
     // so now we should be able to translate rotate or do what ever with these
     final unionTransform = _genMatrix(
-        skewX: boundedWidth / unionPath.getBounds().width,
-        skewY: .45,
-        translateX: 30,
+      skewX: boundedWidth / unionPath.getBounds().width,
+      skewY: .45 * scaleFactor,
+      translateX: 30,
     );
 
     final upperCircleTransform = _genMatrix(
-        skewX: .5,
-        skewY: .5,
-        translateY: yTranslation+13,
+      skewX: .5 * scaleFactor,
+      skewY: .5 * scaleFactor,
+      translateY:(yTranslation+13)/2*scaleFactor,
     );
     final lowerCircleTransform = _genMatrix(
-        skewX: .5,
-        skewY: .5,
-        translateX: boundedWidth - imageOffset,
-        translateY: yTranslation,
+      skewX: .5 * scaleFactor,
+      skewY: .5 * scaleFactor,
+      translateX: boundedWidth-imageOffset*scaleFactor,
+      translateY: (yTranslation+19)/2*scaleFactor,
     );
 
     // drawing
     canvas.drawRect(
-        Offset.zero & Size(boundedWidth, deviceSize.height),
-        Paint()..color = ColorConstant.greenA400,
+      Offset.zero & Size(boundedWidth, size.height),
+      Paint()..color = ColorConstant.greenA400,
     );
     canvas.drawPath(
-        unionPath.transform(unionTransform), unionPaint,
+      unionPath.transform(unionTransform), unionPaint,
     );
     canvas.drawPath(
-        upperCirclePath.transform(upperCircleTransform), upperCirclePaint,
+      upperCirclePath.transform(upperCircleTransform), upperCirclePaint,
     );
     canvas.drawPath(
-        lowerCirclePath.transform(lowerCircleTransform), lowerCirclePaint,
+      lowerCirclePath.transform(lowerCircleTransform), lowerCirclePaint,
     );
 
-
+    _logger.printInfo(
+        info:
+            (size.width/1008)
+        .toString(),
+    );
   }
 
   @override
