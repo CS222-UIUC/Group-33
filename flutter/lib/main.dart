@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'camera_feature.dart';
 
 // coverage:ignore-start
 void main() {
@@ -22,7 +23,16 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('MoodSpot'),
           ),
-          body: const Text('Hello, Moodspot!'),
+          body: SafeArea(
+            // const Text('Hello, Moodspot!'),
+            child: ElevatedButton(
+              child:
+                const Text('Hello, Moodspot!'),
+              onPressed: () {
+                TakePictureScreen();
+              },
+            ),
+          ),
         ),
       ),
     );

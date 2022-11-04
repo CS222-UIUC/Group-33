@@ -8,8 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 // import '/util/mood.dart' as enum_Mood; //CHANGE
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+class StartCameraPage extends StatefulWidget() {
   var cameras = null;
   var firstCamera = null;
   try {
@@ -18,16 +17,16 @@ Future<void> main() async {
     logError(e.code, e.description);
   }
 
-  runApp(
-    MaterialApp(
-      theme: ThemeData.dark(),
-      home: TakePictureScreen(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: TakePictureScreen createState() => TakePictureScreen(
         // Passing camera to the TakePictureScreen widget
         camera: firstCamera,
-      ),
-    ),
-  );
+      );
+    )
+  }
 }
+
 
 void logError(String code, String? description) {
   print("code: ");
@@ -39,8 +38,8 @@ void logError(String code, String? description) {
 //camera screen
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
-  super.key,
-  required this.camera,
+    super.key,
+    required this.camera,
   });
 
   final CameraDescription camera;
