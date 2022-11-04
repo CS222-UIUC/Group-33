@@ -2,7 +2,7 @@
     package="com.example.semaphoreci_flutter_demo">
     <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <applicatio>
+    <application>
         android:label="semaphoreci_flutter_demo"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -39,5 +39,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </applicatio>
+    </application>
 </manifest>

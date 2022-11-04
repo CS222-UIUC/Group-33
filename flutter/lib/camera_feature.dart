@@ -9,12 +9,15 @@ import 'package:flutter/material.dart';
 // import '/util/mood.dart' as enum_Mood; //CHANGE
 
 class StartCameraPage extends StatefulWidget() {
-  var cameras = null;
-  var firstCamera = null;
-  try {
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    logError(e.code, e.description);
+  @override
+  void initState() {
+    var cameras = null;
+    var firstCamera = null;
+    try {
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      logError(e.code, e.description);
+    }
   }
 
   Widget build(BuildContext context) {
@@ -47,6 +50,7 @@ class TakePictureScreen extends StatefulWidget {
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
 }
+
 //added
 enum Mood {
   angry,
@@ -72,31 +76,31 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     //initialize the controller; returns a Future.
     _initializeControllerFuture = _controller.initialize();
-    }
+  }
 
-    @override
-    void dispose() {
-      // Dispose of the controller when the widget is disposed.
-      _controller.dispose();
-      super.dispose();
-    }
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is disposed.
+    _controller.dispose();
+    super.dispose();
+  }
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Take a picture')),
-        // FutureBuilder displays a loading spinner until the controller has finished initializing.
-        body: FutureBuilder<void>(
-          future: _initializeControllerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return CameraPreview(_controller);
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Take a picture')),
+      // FutureBuilder displays a loading spinner until the controller has finished initializing.
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return CameraPreview(_controller);
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
         //onPressed callback for taking a picture
         onPressed: () async {
           try {
@@ -142,10 +146,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             print(e);
           }
         },
-        child: const Icon(Icons.camera_alt),
-        ),
-      );
-    }
+      child: const Icon(Icons.camera_alt),
+      ),
+    );
+  }
   }
 
 //displays picture
