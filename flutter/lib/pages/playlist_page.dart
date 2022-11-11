@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:semaphoreci_flutter_demo/pages/emotion_page.dart';
 import 'package:semaphoreci_flutter_demo/pages/player.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
@@ -65,7 +66,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => Player(widget.logger),
+                builder: (BuildContext context) => EmotionPage(widget.logger),
               ),
             );
           },
