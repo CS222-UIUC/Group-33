@@ -18,6 +18,7 @@ dependencies:
   image_downloader: ^0.31.0
   json_annotation: ^4.4.0
   logger: ^1.1.0
+  miniplayer: ^1.0.1
   provider: ^5.0.0
   spotify_sdk: ^2.3.0
 

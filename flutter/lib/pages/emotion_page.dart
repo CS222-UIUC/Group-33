@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/camera.dart';
-import 'package:semaphoreci_flutter_demo/pages/player.dart';
+import 'package:semaphoreci_flutter_demo/pages/playlist_page.dart';
 
 class EmotionPage extends StatefulWidget {
   final Logger logger;
@@ -198,7 +198,7 @@ class _EmotionPageState extends State<EmotionPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => Player(widget.logger),
+        builder: (BuildContext context) => PlaylistPage(widget.logger),
       ),
     );
   }
