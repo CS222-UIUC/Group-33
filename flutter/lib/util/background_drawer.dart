@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
-import 'package:semaphoreci_flutter_demo/util/size_util.dart';
 
 class BackgroundMoodSpot extends CustomPainter{
   final Path  unionPath  = Path();
@@ -13,7 +10,6 @@ class BackgroundMoodSpot extends CustomPainter{
   final Path  lowerCirclePath  = Path();
   final Paint lowerCirclePaint = Paint();
 
-  static const double yTranslation = 1008 - 344;
   static const double imageOffset = 599;
 
   BackgroundMoodSpot(){
@@ -64,39 +60,33 @@ class BackgroundMoodSpot extends CustomPainter{
     return m.storage;
   }
 
-  final _logger = Logger();
-
   // the goal with this is to make a background photo that can
   // dynamically resize
   @override
   void paint(Canvas canvas, Size size){
 
-    final boundedWidth = size.width /*> deviceSize.width
-        ? deviceSize.width : size.width*/;
-
     final scaleFactor = size.height/1008;
     // so now we should be able to translate rotate or do what ever with these
     final unionTransform = _genMatrix(
-      skewX: boundedWidth / unionPath.getBounds().width,
-      skewY: .45 * scaleFactor,
-      translateX: 30,
+      skewX: size.width / unionPath.getBounds().width,
+      skewY: .4 * scaleFactor,
     );
 
     final upperCircleTransform = _genMatrix(
       skewX: .5 * scaleFactor,
       skewY: .5 * scaleFactor,
-      translateY:(yTranslation+13)/2*scaleFactor,
+      translateY: 339 * scaleFactor,
     );
     final lowerCircleTransform = _genMatrix(
       skewX: .5 * scaleFactor,
       skewY: .5 * scaleFactor,
-      translateX: boundedWidth-imageOffset*scaleFactor,
-      translateY: (yTranslation+19)/2*scaleFactor,
+      translateX: size.width - imageOffset * scaleFactor,
+      translateY: 344 * scaleFactor,
     );
 
     // drawing
     canvas.drawRect(
-      Offset.zero & Size(boundedWidth, size.height),
+      Offset.zero & size,
       Paint()..color = ColorConstant.greenA400,
     );
     canvas.drawPath(
@@ -109,11 +99,6 @@ class BackgroundMoodSpot extends CustomPainter{
       lowerCirclePath.transform(lowerCircleTransform), lowerCirclePaint,
     );
 
-    _logger.printInfo(
-        info:
-            (size.width/1008)
-        .toString(),
-    );
   }
 
   @override
