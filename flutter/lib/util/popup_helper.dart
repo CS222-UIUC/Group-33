@@ -36,7 +36,7 @@ void displayAlertMessage(String message, AlertLevel alertLevel){
     SnackBar(
         content: Text(
             message,
-            style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+            style: TextStyle(color: textColor, fontWeight: FontWeight.normal),
         ),
         backgroundColor: color,
     ),
