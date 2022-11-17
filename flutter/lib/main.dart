@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
-import 'camera_feature.dart';
+// import 'camera_feature.dart';
+import 'TakePictureScreen.dart';
 
 // coverage:ignore-start
 void main() {

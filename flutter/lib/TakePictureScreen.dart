@@ -3,23 +3,47 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'DisplayPictureScreen.dart';
 
-//camera screen
+// camera screen
 class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({
-  super.key,
-  required this.camera,
-  });
+  // TakePictureScreen({
+  //   super.key,
+  //   // required this.camera,
+  // });
 
-  final CameraDescription camera;
+  // final CameraDescription camera = widget.firstCamera as CameraDescription;
+
+  // @override
+  // TakePictureScreenState createState() => TakePictureScreenState();
+  @override
+  var cameras = null;
+  var camera;
+  Future<void> initState() async {
+    try {
+      cameras = await availableCameras();
+      camera = cameras.first;
+    } on CameraException catch (e) {
+      logError(e.code, e.description);
+    }
+  }
+
+  // final CameraDescription camera = firstCamera as CameraDescription;
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
 }
+
+void logError(String code, String? description) {
+  print('code: ');
+  print(code);
+  print('description: ');
+  print(description);
+}
+
+//-------------------------------------------------------------
 
 //added
 enum Mood {
@@ -39,8 +63,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   void initState() {
     super.initState();
     //display the current output from the Camera, create a CameraController.
-    _controller =  CameraController (
-      widget.camera,
+    _controller = CameraController(
+      widget.camera as CameraDescription,
       ResolutionPreset.medium,
     );
 
@@ -88,19 +112,16 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             // here is our main request
             var request = http.MultipartRequest('POST', uri)
-              ..files.add(
-                  await http.MultipartFile.fromPath(
-                      'selfiePictureRequest',     // the label by which you must send the file
-                      imageToAPI // the image file, where ever you store that
-                  )
-              );
+              ..files.add(await http.MultipartFile.fromPath(
+                  'file', // the label by which you must send the file
+                  imageToAPI as String, // the image file, where ever you store that
+                ));
 
             var response = await request.send();
-            var topEmotion = response["dominant_emotion"];
+            var topEmotion = response['dominant_emotion'];
             //added
-            Mood mood = Mood.values.firstWhere((e) =>
-            e.toString() == 'Mood.' + topEmotion.toString()
-            );
+            Mood mood = Mood.values.firstWhere(
+                (e) => e.toString() == 'Mood.' + topEmotion.toString());
 
             if (!mounted) return;
 
