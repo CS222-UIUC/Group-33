@@ -104,7 +104,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
             final path = image.path;
             final bytes = await File(path).readAsBytes();
-            final img.Image imageToAPI = img.decodeImage(bytes);
+            final imageToAPI = img.decodeImage(bytes);
 
             //send image to backend and retrieves emotion
             // make a Uri from the API
@@ -113,12 +113,15 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // here is our main request
             var request = http.MultipartRequest('POST', uri)
               ..files.add(await http.MultipartFile.fromPath(
-                  'file', // the label by which you must send the file
-                  imageToAPI as String, // the image file, where ever you store that
-                ));
+                'file', // the label by which you must send the file
+                imageToAPI
+                    as String, // the image file, where ever you store that
+              ));
 
             var response = await request.send();
-            var topEmotion = response['dominant_emotion'];
+            // var topEmotion = response['dominant_emotion'];
+            //CHANGE TO ABOVE CODE AND FIX JSON OBJECT PASRING ABOVE
+            var topEmotion = "happy";
             //added
             Mood mood = Mood.values.firstWhere(
                 (e) => e.toString() == 'Mood.' + topEmotion.toString());

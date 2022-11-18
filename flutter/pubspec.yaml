@@ -24,6 +24,7 @@ dependencies:
   camera:
   path_provider:
   path:
+  image: ^3.2.2
 
 dev_dependencies:
   build_runner: ^2.0.0
