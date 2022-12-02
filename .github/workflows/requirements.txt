@@ -1,0 +1,3 @@
+deepface
+Flask
+opencv-python
