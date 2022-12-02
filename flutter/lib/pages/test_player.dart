@@ -13,6 +13,7 @@ import 'package:spotify_sdk/models/player_context.dart';
 import 'package:spotify_sdk/models/player_state.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
+import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
 import '../util/sized_icon_button.dart';
 
 // Future<void> main() async {
@@ -24,6 +25,7 @@ import '../util/sized_icon_button.dart';
 /// * [spotify_sdk](https://pub.dev/packages/spotify_sdk)
 /// to connect to Spotify and use controls.
 class TestPlayer extends StatefulWidget {
+  // final MyPlaylistInfo myPlaylistInfo;
   const TestPlayer({Key? key}) : super(key: key);
 
   @override
@@ -51,15 +53,15 @@ class _TestPlayerState extends State<TestPlayer> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ConnectionStatus>(
-        stream: SpotifySdk.subscribeConnectionStatus(),
-        builder: (context, snapshot) {
-          _connected = false;
-          var data = snapshot.data;
-          if (data != null) {
-            _connected = data.connected;
-          }
-          return _sampleFlowWidget(context);
-        },
+      stream: SpotifySdk.subscribeConnectionStatus(),
+      builder: (context, snapshot) {
+        _connected = false;
+        var data = snapshot.data;
+        if (data != null) {
+          _connected = data.connected;
+        }
+        return _sampleFlowWidget(context);
+      },
     );
   }
 
@@ -143,8 +145,8 @@ class _TestPlayerState extends State<TestPlayer> {
             _connected
                 ? _buildPlayerStateWidget()
                 : const Center(
-              child: Text('Not connected'),
-            ),
+                    child: Text('Not connected'),
+                  ),
             const Divider(),
             // const Text(
             //   'Player Context',
@@ -200,8 +202,8 @@ class _TestPlayerState extends State<TestPlayer> {
         ),
         _loading
             ? Container(
-            color: Colors.black12,
-            child: const Center(child: CircularProgressIndicator()))
+                color: Colors.black12,
+                child: const Center(child: CircularProgressIndicator()))
             : const SizedBox(),
       ],
     );
@@ -329,7 +331,6 @@ class _TestPlayerState extends State<TestPlayer> {
       },
     );
   }
-
 
   Widget spotifyImageWidget(ImageUri image) {
     return FutureBuilder(

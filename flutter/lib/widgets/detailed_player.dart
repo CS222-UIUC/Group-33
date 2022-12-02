@@ -7,6 +7,8 @@ import 'package:spotify_sdk/models/connection_status.dart';
 import 'package:spotify_sdk/models/player_state.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
+import '../util/sized_icon_button.dart';
+
 final ValueNotifier<double> playerExpandProgress =
     ValueNotifier(playerMinHeight);
 
@@ -18,52 +20,50 @@ const miniplayerPercentageDeclaration = 0.2;
 
 class DetailedPlayer extends StatelessWidget {
   // final AudioObject audioObject;
-  // final MyPlaylistInfo myPlaylistInfo;
-  // DetailedPlayer(
-  //     {Key? key, required this.myPlaylistInfo, required this.audioObject})
-  //     : super(key: key);
-  DetailedPlayer({Key? key}) : super(key: key);
+  final MyPlaylistInfo myPlaylistInfo;
+  DetailedPlayer({Key? key, required this.myPlaylistInfo}) : super(key: key);
+  // const DetailedPlayer({Key? key}) : super(key: key);
 
-  // bool _connected = false;
-  //
-  // @override
-  // Widget build(BuildContext context) {
-  //   return StreamBuilder<ConnectionStatus>(
-  //       stream: SpotifySdk.subscribeConnectionStatus(),
-  //       builder: (context, snapshot) {
-  //         _connected = false;
-  //         final data = snapshot.data;
-  //         if (data != null) {
-  //           _connected = data.connected;
-  //         }
-  //
-  //         return buildPlayerState(context);
-  //       },
-  //   );
-  // }
+  bool _connected = false;
+  bool _loading = false;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<ConnectionStatus>(
+      stream: SpotifySdk.subscribeConnectionStatus(),
+      builder: (context, snapshot) {
+        _connected = false;
+        final data = snapshot.data;
+        if (data != null) {
+          _connected = data.connected;
+        }
 
+        return buildPlayerState(context);
+      },
+    );
+  }
 
-  // Widget buildPlayerState(BuildContext context) {
-  //   return StreamBuilder<PlayerState>(
-  //       stream: SpotifySdk.subscribePlayerState(),
-  //       builder: (BuildContext context, AsyncSnapshot<PlayerState> snapshot) {
-  //         var track = snapshot.data?.track;
-  //         var playerState = snapshot.data;
-  //
-  //         if (playerState == null || track == null) {
-  //           return Center(
-  //             child: Container(),
-  //           );
-  //         }
-  //
-  //         return buildMiniplayer(context);
-  //       },
-  //   );
-  // }
+  Widget buildPlayerState(BuildContext context) {
+    return StreamBuilder<PlayerState>(
+      stream: SpotifySdk.subscribePlayerState(),
+      builder: (BuildContext context, AsyncSnapshot<PlayerState> snapshot) {
+        var track = snapshot.data?.track;
+        var playerState = snapshot.data;
+        // currentTrackImageUri = track?.imageUri;
+
+        if (playerState == null || track == null) {
+          return Center(
+            child: Container(),
+          );
+        }
+
+        return buildMiniPlayer(playerState, context);
+      },
+    );
+  }
 
   Future<void> play() async {
     try {
-      await SpotifySdk.play(spotifyUri: 'spotify:track:58kNJana4w5BIjlZE2wq5m');
+      await SpotifySdk.play(spotifyUri: myPlaylistInfo.tracks.first.trackUri);
     } on PlatformException catch (e) {
       // setStatus(e.code, message: e.message);
     } on MissingPluginException {
@@ -71,8 +71,48 @@ class DetailedPlayer extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Future<void> pause() async {
+    try {
+      await SpotifySdk.pause();
+    } on PlatformException catch (e) {
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      // setStatus('not implemented');
+    }
+  }
+
+  Future<void> resume() async {
+    try {
+      await SpotifySdk.resume();
+    } on PlatformException catch (e) {
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      // setStatus('not implemented');
+    }
+  }
+
+  Future<void> skipNext() async {
+    try {
+      await SpotifySdk.skipNext();
+    } on PlatformException catch (e) {
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      // setStatus('not implemented');
+    }
+  }
+
+  Future<void> skipPrevious() async {
+    try {
+      await SpotifySdk.skipPrevious();
+    } on PlatformException catch (e) {
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      // setStatus('not implemented');
+    }
+  }
+
+  // @override
+  Widget buildMiniPlayer(PlayerState context2, BuildContext context) {
     return Miniplayer(
       valueNotifier: playerExpandProgress,
       minHeight: 70,
@@ -133,6 +173,11 @@ class DetailedPlayer extends StatelessWidget {
             iconSize: 50,
             onPressed: play,
           );
+          // final buttonPause = IconButton(
+          //   icon: Icon(Icons.play_circle_fill),
+          //   iconSize: 50,
+          //   onPressed: pause,
+          // );
 
           return Column(
             children: [
@@ -162,10 +207,33 @@ class DetailedPlayer extends StatelessWidget {
                         Flexible(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              buttonSkipBackwards,
-                              buttonPlayExpanded,
-                              buttonSkipForward
+                            children: <Widget>[
+                              SizedIconButton(
+                                width: 50,
+                                icon: Icons.skip_previous,
+                                onPressed: skipPrevious,
+                              ),
+                              if (playerState.isPaused)
+                                SizedIconButton(
+                                  width: 50,
+                                  icon: Icons.play_arrow,
+                                  onPressed: resume,
+                                )
+                              else
+                                SizedIconButton(
+                                  width: 50,
+                                  icon: Icons.pause,
+                                  onPressed: pause,
+                                ),
+                              SizedIconButton(
+                                width: 50,
+                                icon: Icons.skip_next,
+                                onPressed: skipNext,
+                              ),
+                              // playerState.isPaused
+                              // buttonSkipBackwards,
+                              // buttonPlayExpanded,
+                              // buttonSkipForward
                             ],
                           ),
                         ),
