@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:semaphoreci_flutter_demo/model/track.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/track.dart';
 
 part 'top_tracks.g.dart';
 

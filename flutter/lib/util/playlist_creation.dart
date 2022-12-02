@@ -5,12 +5,12 @@ import 'dart:math';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:semaphoreci_flutter_demo/model/audio_features.dart';
-import 'package:semaphoreci_flutter_demo/model/create_playlist.dart';
-import 'package:semaphoreci_flutter_demo/model/followed_artists.dart';
-import 'package:semaphoreci_flutter_demo/model/top_artists.dart';
-import 'package:semaphoreci_flutter_demo/model/top_tracks.dart';
-import 'package:semaphoreci_flutter_demo/model/user_profile.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models//top_tracks.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/audio_features.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/create_playlist.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/followed_artists.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/top_artists.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/user_profile.dart';
 import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
@@ -22,21 +22,23 @@ class PlaylistCreation {
     _logger = logger;
   }
 
-  Future<void> createSpotifyPlaylist(Mood mood) async {
+  Future<String> createSpotifyPlaylist(Mood mood) async {
     final topArtistsUri = await aggregateTopArtists();
     final topTracks = await aggregateTopTracks(topArtistsUri!);
     final selectedTracks = await selectTracks(topTracks!, mood);
 
-    await createPlaylist(selectedTracks!, mood);
+    return createPlaylist(selectedTracks!, mood);
   }
 
-  Future<void> createPlaylist(List<String> trackUris, Mood mood) async {
+  Future<String> createPlaylist(List<String> trackUris, Mood mood) async {
     final userProfile = await getUserProfile();
 
     final newPlaylist = await postNewPlaylist(userProfile!.id, 'Mood $mood');
 
     trackUris.shuffle();
     await addItemsToPlaylist(newPlaylist!.id, trackUris);
+
+    return newPlaylist.id;
   }
 
   Future<void> addItemsToPlaylist(

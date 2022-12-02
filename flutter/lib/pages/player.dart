@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
+import 'package:semaphoreci_flutter_demo/pages/loading_page.dart';
+
 import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:semaphoreci_flutter_demo/util/playlist_creation.dart';
 
@@ -55,6 +57,10 @@ class _PlayerState extends State<Player> {
                   dropdownValue = value;
                 });
               },
+            ),
+            TextButton(
+              onPressed: playlistPageButton,
+              child: const Text('To Playlist Page'),
             )
           ],
         ),
@@ -67,6 +73,15 @@ class _PlayerState extends State<Player> {
       context,
       MaterialPageRoute<void>(
         builder: (BuildContext context) => const Home(),
+      ),
+    );
+  }
+
+  void playlistPageButton() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => LoadingPage(widget.logger),
       ),
     );
   }
