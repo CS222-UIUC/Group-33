@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:miniplayer/miniplayer.dart';
-
-import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
-import 'package:semaphoreci_flutter_demo/model/data_models/my_track.dart';
-import 'package:semaphoreci_flutter_demo/models/crossfade_state.dart';
-import 'package:semaphoreci_flutter_demo/models/image_uri.dart';
+import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
+import 'package:spotify_sdk/models/connection_status.dart';
+import 'package:spotify_sdk/models/player_state.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 final ValueNotifier<double> playerExpandProgress =
@@ -19,17 +17,53 @@ const double playerMaxHeight = 370;
 const miniplayerPercentageDeclaration = 0.2;
 
 class DetailedPlayer extends StatelessWidget {
-  final AudioObject audioObject;
-  final MyPlaylistInfo myPlaylistInfo;
-  DetailedPlayer(
-      {Key? key, required this.myPlaylistInfo, required this.audioObject})
-      : super(key: key);
-  CrossfadeState? crossfadeState;
-  late ImageUri? currentTrackImageUri;
+  // final AudioObject audioObject;
+  // final MyPlaylistInfo myPlaylistInfo;
+  // DetailedPlayer(
+  //     {Key? key, required this.myPlaylistInfo, required this.audioObject})
+  //     : super(key: key);
+  DetailedPlayer({Key? key}) : super(key: key);
+
+  // bool _connected = false;
+  //
+  // @override
+  // Widget build(BuildContext context) {
+  //   return StreamBuilder<ConnectionStatus>(
+  //       stream: SpotifySdk.subscribeConnectionStatus(),
+  //       builder: (context, snapshot) {
+  //         _connected = false;
+  //         final data = snapshot.data;
+  //         if (data != null) {
+  //           _connected = data.connected;
+  //         }
+  //
+  //         return buildPlayerState(context);
+  //       },
+  //   );
+  // }
+
+
+  // Widget buildPlayerState(BuildContext context) {
+  //   return StreamBuilder<PlayerState>(
+  //       stream: SpotifySdk.subscribePlayerState(),
+  //       builder: (BuildContext context, AsyncSnapshot<PlayerState> snapshot) {
+  //         var track = snapshot.data?.track;
+  //         var playerState = snapshot.data;
+  //
+  //         if (playerState == null || track == null) {
+  //           return Center(
+  //             child: Container(),
+  //           );
+  //         }
+  //
+  //         return buildMiniplayer(context);
+  //       },
+  //   );
+  // }
 
   Future<void> play() async {
     try {
-      await SpotifySdk.play(spotifyUri: myPlaylistInfo.tracks.first.trackUri);
+      await SpotifySdk.play(spotifyUri: 'spotify:track:58kNJana4w5BIjlZE2wq5m');
     } on PlatformException catch (e) {
       // setStatus(e.code, message: e.message);
     } on MissingPluginException {
@@ -53,9 +87,9 @@ class DetailedPlayer extends StatelessWidget {
 
         final img = Image.asset('img/sample_album_img.png');
         const text = Text('Song Name');
-        const buttonPlay = IconButton(
+        final buttonPlay = IconButton(
           icon: Icon(Icons.pause),
-          onPressed: onTap,
+          onPressed: play,
         );
         const progressIndicator = LinearProgressIndicator(value: 0.3);
 
@@ -94,10 +128,10 @@ class DetailedPlayer extends StatelessWidget {
             iconSize: 33,
             onPressed: onTap,
           );
-          const buttonPlayExpanded = IconButton(
+          final buttonPlayExpanded = IconButton(
             icon: Icon(Icons.pause_circle_filled),
             iconSize: 50,
-            onPressed: onTap,
+            onPressed: play,
           );
 
           return Column(
@@ -128,7 +162,7 @@ class DetailedPlayer extends StatelessWidget {
                         Flexible(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               buttonSkipBackwards,
                               buttonPlayExpanded,
                               buttonSkipForward
@@ -177,14 +211,14 @@ class DetailedPlayer extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              audioObject.title,
+                              'Title',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!
                                   .copyWith(fontSize: 16),
                             ),
                             Text(
-                              audioObject.subtitle,
+                              'Author',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2!

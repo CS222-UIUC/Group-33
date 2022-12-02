@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/camera.dart';
+import 'package:semaphoreci_flutter_demo/pages/test_player.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 class Home extends StatefulWidget {
@@ -79,12 +80,27 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                TextButton(
+                    onPressed: newPageBtn,
+                    child: const Text('Yahoo'),
+                ),
               ],
             )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> newPageBtn() async {
+    if (await getAccessToken()) {
+      await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => TestPlayer(),
+        ),
+      );
+    }
   }
 
   Future<void> loginButton() async {

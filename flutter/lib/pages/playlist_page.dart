@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
 import 'package:semaphoreci_flutter_demo/pages/emotion_page.dart';
+import 'package:semaphoreci_flutter_demo/pages/test_player.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
 
@@ -50,10 +51,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   child: listOfSongs(),
                 ),
               ),
-              DetailedPlayer(
-                myPlaylistInfo: widget.myPlaylistInfo,
-                audioObject: AudioObject('Song Title', 'Artist', ''),
-              )
+              const TestPlayer(),
             ],
           ),
         ),
