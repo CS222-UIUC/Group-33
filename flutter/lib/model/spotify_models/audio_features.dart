@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:semaphoreci_flutter_demo/model/audio_feature.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models//audio_feature.dart';
 
 part 'audio_features.g.dart';
 

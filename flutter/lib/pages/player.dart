@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/home.dart';
-import 'package:semaphoreci_flutter_demo/pages/playlist_page.dart';
+import 'package:semaphoreci_flutter_demo/pages/loading_page.dart';
 
 import 'package:semaphoreci_flutter_demo/util/mood.dart';
 import 'package:semaphoreci_flutter_demo/util/playlist_creation.dart';
@@ -81,7 +81,7 @@ class _PlayerState extends State<Player> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => PlaylistPage(widget.logger),
+        builder: (BuildContext context) => LoadingPage(widget.logger),
       ),
     );
   }

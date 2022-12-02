@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:semaphoreci_flutter_demo/model/artist.dart';
+import 'package:semaphoreci_flutter_demo/model/spotify_models/artist.dart';
 
 part 'follow_artist.g.dart';
 

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
 import 'package:semaphoreci_flutter_demo/pages/emotion_page.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
 
 class PlaylistPage extends StatefulWidget {
   final Logger logger;
-  const PlaylistPage(this.logger, {Key? key}) : super(key: key);
+  final MyPlaylistInfo myPlaylistInfo;
+  const PlaylistPage(this.logger, this.myPlaylistInfo, {Key? key})
+      : super(key: key);
 
   @override
   State<PlaylistPage> createState() => _PlaylistPageState();
@@ -89,13 +92,19 @@ class _PlaylistPageState extends State<PlaylistPage> {
   }
 
   Widget imageContainer() {
+    // return Image.file(widget.myPlaylistInfo.imageFile!);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 45),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(0),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
-          child: Image.asset('img/sample_album_img.png'),
+          child: widget.myPlaylistInfo.imageFile != null
+              ? Image.file(
+                  widget.myPlaylistInfo.imageFile!,
+                  scale: 0.5,
+                )
+              : Image.asset('img/sample_album_img.png'),
         ),
       ),
     );
@@ -105,7 +114,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Text(
-        'Playlist Name',
+        widget.myPlaylistInfo.name,
         style: GoogleFonts.inter(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -145,7 +154,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 20,
+      itemCount: widget.myPlaylistInfo.tracks.length,
       itemBuilder: (context, index) => Card(
         child: ListTile(
           dense: true,
@@ -157,18 +166,20 @@ class _PlaylistPageState extends State<PlaylistPage> {
           minLeadingWidth: 0,
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset('img/sample_album_img.png'),
+            child: widget.myPlaylistInfo.tracks[index].imageFile != null
+                ? Image.file(widget.myPlaylistInfo.tracks[index].imageFile!)
+                : Image.asset('img/sample_album_img.png'),
           ),
           title: Text(
-            'Song Name',
+            widget.myPlaylistInfo.tracks[index].title,
             style: GoogleFonts.inter(fontSize: 15),
           ),
           subtitle: Text(
-            'Artist',
+            widget.myPlaylistInfo.tracks[index].artistNames,
             style: GoogleFonts.inter(fontSize: 12),
           ),
           trailing: Text(
-            '1:03',
+            widget.myPlaylistInfo.tracks[index].duration,
             style: GoogleFonts.inter(
               fontSize: 14,
             ),
