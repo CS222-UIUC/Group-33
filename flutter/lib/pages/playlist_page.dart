@@ -50,7 +50,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   child: listOfSongs(),
                 ),
               ),
-              const DetailedPlayer(
+              DetailedPlayer(
+                myPlaylistInfo: widget.myPlaylistInfo,
                 audioObject: AudioObject('Song Title', 'Artist', ''),
               )
             ],

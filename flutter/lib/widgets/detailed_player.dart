@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:miniplayer/miniplayer.dart';
 
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
+import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
+import 'package:semaphoreci_flutter_demo/model/data_models/my_track.dart';
+import 'package:semaphoreci_flutter_demo/models/crossfade_state.dart';
+import 'package:semaphoreci_flutter_demo/models/image_uri.dart';
+import 'package:spotify_sdk/spotify_sdk.dart';
 
 final ValueNotifier<double> playerExpandProgress =
     ValueNotifier(playerMinHeight);
@@ -14,8 +20,22 @@ const miniplayerPercentageDeclaration = 0.2;
 
 class DetailedPlayer extends StatelessWidget {
   final AudioObject audioObject;
+  final MyPlaylistInfo myPlaylistInfo;
+  DetailedPlayer(
+      {Key? key, required this.myPlaylistInfo, required this.audioObject})
+      : super(key: key);
+  CrossfadeState? crossfadeState;
+  late ImageUri? currentTrackImageUri;
 
-  const DetailedPlayer({Key? key, required this.audioObject}) : super(key: key);
+  Future<void> play() async {
+    try {
+      await SpotifySdk.play(spotifyUri: myPlaylistInfo.tracks.first.trackUri);
+    } on PlatformException catch (e) {
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      // setStatus('not implemented');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +154,6 @@ class DetailedPlayer extends StatelessWidget {
               playerMinHeight,
           value: height,
         );
-
         final elementOpacity = 1 - 1 * percentageMiniplayer;
         final progressIndicatorHeight = 4 - 4 * percentageMiniplayer;
 
