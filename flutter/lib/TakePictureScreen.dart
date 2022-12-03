@@ -159,7 +159,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               Mood mood = Mood.values.firstWhere(
                   (e) => e.toString() == 'Mood.' + topEmotion.toString());
 
-              if (!mounted) return;
+              log(mood.name);
 
               //display on a new screen
               await Navigator.of(context).push(
