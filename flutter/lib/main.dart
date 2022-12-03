@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
-import 'TakePictureScreen.dart';
 import 'package:semaphoreci_flutter_demo/testingHome.dart';
 
 // coverage:ignore-start

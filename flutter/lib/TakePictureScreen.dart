@@ -1,49 +1,27 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-import 'package:image/image.dart' as img;
-import 'package:http/http.dart' as http;
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'DisplayPictureScreen.dart';
-import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:semaphoreci_flutter_demo/DisplayPictureScreen.dart';
 
 // camera screen
 class TakePictureScreen extends StatefulWidget {
-  // @override
-  // TakePictureScreenState createState() => TakePictureScreenState();
-  @override
-  // var cameras = null;
-  // var camera;
-  // void initState() {
-  //   print("inside initState line 19");
-    // try {
-    //   cameras = await availableCameras();
-    //   camera = cameras.first;
-    //   if(camera == null) {
-    //     logError("", "no valid cameras");
-    //   } else {
-    //     print("found valid camera");
-    //   }
-    // } on CameraException catch (e) {
-    //   logError(e.code, e.description);
-    // }
-  // }
-
-  // final CameraDescription camera = firstCamera as CameraDescription;
-
   final CameraDescription camera;
-  const TakePictureScreen(this.camera, {Key? key}) : super(key: key);
+  const TakePictureScreen(this.camera, {super.key});
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
 }
 
-void logError(String code, String? description) {
-  print('code: ');
-  print(code);
-  print('description: ');
-  print(description);
+void logError(String code, String description) {
+  log('code: ');
+  log(code);
+  log('description: ');
+  log(description);
 }
 
 enum Mood {
@@ -59,33 +37,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  @override
-  var cameras = null;
+  var cameras;
   var camera;
   void initState() {
-    print("in initState line 56");
-    // await super.initState();
-
-    // @override
-    // var cameras = null;
-    // var camera;
-    //
-    // print("inside initState line 64");
-    // try {
-    //   cameras = await availableCameras();
-    //   camera = cameras.first;
-    //   if(camera == null) {
-    //     logError("", "no valid cameras");
-    //   } else {
-    //     print("found valid camera");
-    //   }
-    // } on CameraException catch (e) {
-    //   logError(e.code, e.description);
-    // }
-
     //display the current output from the Camera, create a CameraController.
     _controller = CameraController(
-      widget.camera as CameraDescription,
+      widget.camera,
       ResolutionPreset.medium,
     );
 
@@ -104,7 +61,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Take a picture')),
-      // FutureBuilder displays a loading spinner until the controller has finished initializing.
+      //FutureBuilder displays a loading spinner until the controller finishes initializing
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -119,45 +76,40 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         //onPressed callback for taking a picture
         onPressed: () async {
           try {
-            print("line 122");
             await _initializeControllerFuture;
 
             // retrieves picture
             final image = await _controller.takePicture();
             final path = image.path;
-            print("line 128");
-            final bytes = await File(path).readAsBytes();
-            final imageToAPI = img.decodeImage(bytes);
-            print("line 131");
             //send image to backend and retrieves emotion
             // make a Uri from the API
-            var uri = Uri.parse('https://moodspot1.pythonanywhere.com/check');
+            final uri = Uri.parse('https://moodspot1.pythonanywhere.com/check');
 
             // here is our main request
-            var request = http.MultipartRequest('POST', uri)
+            final request = http.MultipartRequest('POST', uri)
               ..files.add(await http.MultipartFile.fromPath(
                 'file', // the label by which you must send the file
                 path, // the image file, where ever you store that
               ));
 
-            var response = await request.send();
+            final response = await request.send();
 
             if (response.statusCode >= 200 && response.statusCode < 300) {
-              String responseString = await response.stream.bytesToString();
+              final responseString = await response.stream.bytesToString();
 
-              const JsonDecoder decoder = JsonDecoder();
+              const decoder = JsonDecoder();
               final responseMap = decoder.convert(responseString);
 
               var topEmotion;
-              if (!(responseMap["error"] as bool)) {
-                topEmotion = responseMap["dominant_emotion"];
+              if (!(responseMap['error'] as bool)) {
+                topEmotion = responseMap['dominant_emotion'];
               } else {
-                throw Exception(responseMap["msg"]);
+                throw Exception(responseMap['msg']);
               }
 
               //added
-              Mood mood = Mood.values.firstWhere(
-                  (e) => e.toString() == 'Mood.' + topEmotion.toString());
+              final mood = Mood.values.firstWhere(
+                  (e) => e.toString() == 'Mood.$topEmotion',);
 
               log(mood.name);
 
@@ -173,7 +125,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               throw Exception('Failed to connect to server.');
             }
           } catch (e) {
-            print(e);
+            log(e as String);
           }
         },
         child: const Icon(Icons.camera_alt),

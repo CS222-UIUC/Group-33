@@ -1,25 +1,16 @@
+import 'dart:async';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
+import 'package:semaphoreci_flutter_demo/TakePictureScreen.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
-import 'TakePictureScreen.dart';
-
-
-import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
-import 'package:image/image.dart' as img;
-import 'package:http/http.dart' as http;
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-import 'DisplayPictureScreen.dart';
-import 'dart:convert';
-
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -27,7 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final Logger _logger = Logger(
-    //filter: CustomLogFilter(), // custom logfilter can be used to have logs in release mode
+    //filter: CustomLogFilter(), // custom log filter can be used to have logs in release mode
     printer: PrettyPrinter(
       printTime: true,
     ),
@@ -106,9 +97,8 @@ class _HomeState extends State<Home> {
       cameras = await availableCameras();
       camera = cameras.first;
       if(camera == null) {
-        logError("", "no valid cameras");
+        logError('', 'no valid cameras');
       } else {
-        print("found valid camera");
         await Navigator.pushReplacement(
           context,
           MaterialPageRoute<void>(
@@ -117,8 +107,7 @@ class _HomeState extends State<Home> {
         );
       }
     } on CameraException catch (e) {
-      // logError(e.code, e.description);
-      print("camera error");
+      logError(e.code, e.description as String);
     }
   }
 
