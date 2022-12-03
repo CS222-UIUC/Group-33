@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:semaphoreci_flutter_demo/pages/test_player.dart';
+import 'package:semaphoreci_flutter_demo/pages/home.dart';
+import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
 
 // coverage:ignore-start
 void main() async {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green)
             .copyWith(secondary: Colors.blueAccent),
       ),
-      home: TestPlayer(),
+      home: const Home(),
     );
   }
 }

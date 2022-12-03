@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
@@ -18,11 +21,50 @@ const double playerMinHeight = 70;
 const double playerMaxHeight = 370;
 const miniplayerPercentageDeclaration = 0.2;
 
-class DetailedPlayer extends StatelessWidget {
+class DetailedPlayer extends StatefulWidget {
+  const DetailedPlayer({Key? key}) : super(key: key);
+
+  @override
+  State<DetailedPlayer> createState() => _DetailedPlayerState();
+}
+
+class _DetailedPlayerState extends State<DetailedPlayer> {
   // final AudioObject audioObject;
-  final MyPlaylistInfo myPlaylistInfo;
-  DetailedPlayer({Key? key, required this.myPlaylistInfo}) : super(key: key);
+  // final MyPlaylistInfo myPlaylistInfo;
+  // DetailedPlayer({Key? key, required this.myPlaylistInfo}) : super(key: key);
   // const DetailedPlayer({Key? key}) : super(key: key);
+
+  @override
+  void initState() {
+    connectToSpotifyRemote();
+  }
+
+  Future<void> connectToSpotifyRemote() async {
+    try {
+      setState(() {
+        _loading = true;
+      });
+      var result = await SpotifySdk.connectToSpotifyRemote(
+          clientId: dotenv.env['CLIENT_ID'].toString(),
+          redirectUrl: dotenv.env['REDIRECT_URL'].toString());
+      // setStatus(result
+      //     ? 'connect to spotify successful'
+      //     : 'connect to spotify failed');
+      setState(() {
+        _loading = false;
+      });
+    } on PlatformException catch (e) {
+      setState(() {
+        _loading = false;
+      });
+      // setStatus(e.code, message: e.message);
+    } on MissingPluginException {
+      setState(() {
+        _loading = false;
+      });
+      // setStatus('not implemented');
+    }
+  }
 
   bool _connected = false;
   bool _loading = false;
@@ -43,27 +85,42 @@ class DetailedPlayer extends StatelessWidget {
   }
 
   Widget buildPlayerState(BuildContext context) {
-    return StreamBuilder<PlayerState>(
-      stream: SpotifySdk.subscribePlayerState(),
-      builder: (BuildContext context, AsyncSnapshot<PlayerState> snapshot) {
-        var track = snapshot.data?.track;
-        var playerState = snapshot.data;
-        // currentTrackImageUri = track?.imageUri;
+    if (!_connected) {
+      log('Not connected yet');
+      return SizedBox.shrink();
+    }
+    else {
+      return StreamBuilder<PlayerState>(
+        stream: SpotifySdk.subscribePlayerState(),
+        builder: (BuildContext context, AsyncSnapshot<PlayerState> snapshot) {
+          var track = snapshot.data?.track;
+          var playerState = snapshot.data;
+          // currentTrackImageUri = track?.imageUri;
 
-        if (playerState == null || track == null) {
-          return Center(
-            child: Container(),
-          );
-        }
+          if (playerState == null || track == null) {
+            log("Player state or track is null");
+            return const SizedBox.shrink();
+            // return Center(
+            //   child: Column(
+            //     children: [
+            //       const Text(),
+            //       TextButton(
+            //           onPressed: play,
+            //           child: const Icon(Icons.play_arrow)),
+            //     ],
+            //   ),
+            // );
+          }
 
-        return buildMiniPlayer(playerState, context);
-      },
-    );
+          return buildMiniPlayer(playerState, context);
+        },
+      );
+    }
   }
 
   Future<void> play() async {
     try {
-      await SpotifySdk.play(spotifyUri: myPlaylistInfo.tracks.first.trackUri);
+      await SpotifySdk.play(spotifyUri: "spotify:track:58kNJana4w5BIjlZE2wq5m");
     } on PlatformException catch (e) {
       // setStatus(e.code, message: e.message);
     } on MissingPluginException {

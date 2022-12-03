@@ -51,7 +51,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   child: listOfSongs(),
                 ),
               ),
-              const TestPlayer(),
+              const DetailedPlayer(),
             ],
           ),
         ),

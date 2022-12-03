@@ -223,7 +223,8 @@ class _TestPlayerState extends State<TestPlayer> {
           );
         }
 
-        return DetailedPlayer();
+        // return DetailedPlayer();
+        return Container();
 
         // return Column(
         //   mainAxisAlignment: MainAxisAlignment.start,
