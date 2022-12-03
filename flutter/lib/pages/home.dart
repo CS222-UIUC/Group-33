@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
-import 'package:semaphoreci_flutter_demo/pages/player.dart';
+import 'package:semaphoreci_flutter_demo/pages/camera.dart';
 import 'package:semaphoreci_flutter_demo/util/app_styling_constants.dart';
 import 'package:semaphoreci_flutter_demo/util/background_drawer.dart';
 import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
@@ -179,7 +179,7 @@ class _HomeState extends State<Home> {
         ),
     );
 
-    final mainContainer = Container(
+    final mainContainer = SizedBox(
         height: getVerticalSize(887),
         width: deviceSize.width,
         child: Stack(
@@ -190,7 +190,7 @@ class _HomeState extends State<Home> {
 
     final mainScaffold = Scaffold(
         backgroundColor: ColorConstant.clearColor,
-        body: Container(
+        body: SizedBox(
             width: deviceSize.width,
             child: SingleChildScrollView(
                 child: Column(
@@ -217,7 +217,7 @@ class _HomeState extends State<Home> {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => Player(_logger),
+          builder: (BuildContext context) => Camera(_logger),
         ),
       );
     }
