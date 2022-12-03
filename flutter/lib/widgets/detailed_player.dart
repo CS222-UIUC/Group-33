@@ -112,7 +112,7 @@ class DetailedPlayer extends StatelessWidget {
   }
 
   // @override
-  Widget buildMiniPlayer(PlayerState context2, BuildContext context) {
+  Widget buildMiniPlayer(PlayerState playerState, BuildContext context) {
     return Miniplayer(
       valueNotifier: playerExpandProgress,
       minHeight: 70,
