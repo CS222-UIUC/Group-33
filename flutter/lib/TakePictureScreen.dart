@@ -136,7 +136,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // here is our main request
             var request = http.MultipartRequest('POST', uri)
               ..files.add(await http.MultipartFile.fromPath(
-                'file ', // the label by which you must send the file
+                'file', // the label by which you must send the file
                 path, // the image file, where ever you store that
               ));
 
@@ -159,7 +159,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               Mood mood = Mood.values.firstWhere(
                   (e) => e.toString() == 'Mood.' + topEmotion.toString());
 
-              if (!mounted) return;
+              log(mood.name);
 
               //display on a new screen
               await Navigator.of(context).push(
