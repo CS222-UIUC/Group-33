@@ -137,7 +137,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             var request = http.MultipartRequest('POST', uri)
               ..files.add(await http.MultipartFile.fromPath(
                 'file ', // the label by which you must send the file
-                imageToAPI as String, // the image file, where ever you store that
+                path, // the image file, where ever you store that
               ));
 
             var response = await request.send();
