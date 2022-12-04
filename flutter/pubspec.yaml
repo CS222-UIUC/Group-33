@@ -33,6 +33,12 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.0.0
   very_good_analysis: ^3.0.2
+#  flutter_native_splash: ^2.0.1+1
+#
+#flutter_native_splash:
+#  image: tempSplashScreenPic.jpg
+#  color: "#346beb"  #replace with color from canva
+
 
 flutter:
   assets:
