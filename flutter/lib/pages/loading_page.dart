@@ -8,7 +8,8 @@ import 'package:semaphoreci_flutter_demo/util/playlist_track_info.dart';
 
 class LoadingPage extends StatefulWidget {
   final Logger logger;
-  const LoadingPage(this.logger, {Key? key}) : super(key: key);
+  final Mood mood;
+  const LoadingPage(this.logger, this.mood, {Key? key}) : super(key: key);
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
@@ -32,7 +33,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
   Future<void> setupPlaylist() async {
     await playlistCreation
-        .createSpotifyPlaylist(Mood.angry)
+        .createSpotifyPlaylist(widget.mood)
         .then((String value) {
       playlistId = value;
     });

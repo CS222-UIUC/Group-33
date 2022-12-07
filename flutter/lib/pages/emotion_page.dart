@@ -4,11 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/pages/loading_page.dart';
 import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
+import 'package:semaphoreci_flutter_demo/util/mood.dart';
 
 class EmotionPage extends StatefulWidget {
   final Logger logger;
   final String imagePath;
-  const EmotionPage(this.logger, this.imagePath, {Key? key}) : super(key: key);
+  final Mood mood;
+  const EmotionPage(this.logger, this.imagePath, this.mood, {Key? key}) : super(key: key);
 
   @override
   State<EmotionPage> createState() => _EmotionPageState();
@@ -102,7 +104,7 @@ class _EmotionPageState extends State<EmotionPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Text(
-        'Happy',
+        widget.mood.name,
         style: GoogleFonts.inter(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -207,7 +209,7 @@ class _EmotionPageState extends State<EmotionPage> {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => LoadingPage(widget.logger),
+        builder: (BuildContext context) => LoadingPage(widget.logger, widget.mood),
       ),
     );
   }

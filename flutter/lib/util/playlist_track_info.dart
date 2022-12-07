@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_downloader/image_downloader.dart';
 import 'package:logger/logger.dart';
 import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart';
 import 'package:semaphoreci_flutter_demo/model/data_models/my_track.dart';
 import 'package:semaphoreci_flutter_demo/model/spotify_models/playlist_info.dart';
-import 'package:semaphoreci_flutter_demo/widgets/image_downloader.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 class PlaylistTrackInfo {
@@ -23,7 +23,9 @@ class PlaylistTrackInfo {
 
     _logger.log(Level.info, 'Playlist name: ${playlistInfo!.name}');
 
-    _logger.log(Level.info, playlistInfo.tracks.items.first.track.name);
+    if (playlistInfo.tracks.items.isNotEmpty) {
+      _logger.log(Level.info, playlistInfo.tracks.items.first.track.name);
+    }
 
     final myTracks = <MyTrack>[];
     for (var j = 0; j < playlistInfo.tracks.items.length; j++) {

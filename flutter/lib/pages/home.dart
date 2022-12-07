@@ -215,27 +215,32 @@ class _HomeState extends State<Home> {
 
   Future<void> loginButton() async {
     if (await getAccessToken()) {
-      await startCamera();
-    }
-  }
-
-  Future<void> startCamera() async {
-    List<CameraDescription> cameras;
-    CameraDescription camera;
-    try {
-      cameras = await availableCameras();
-      camera = cameras.first;
-
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
           builder: (BuildContext context) => TakePictureScreen(_logger),
         ),
       );
-    } on CameraException catch (e) {
-      logError(e.code, e.description!);
     }
   }
+
+  // Future<void> startCamera() async {
+  //   List<CameraDescription> cameras;
+  //   CameraDescription camera;
+  //   try {
+  //     cameras = await availableCameras();
+  //     camera = cameras.first;
+  //
+  //     await Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute<void>(
+  //         builder: (BuildContext context) => TakePictureScreen(_logger),
+  //       ),
+  //     );
+  //   } on CameraException catch (e) {
+  //     logError(e.code, e.description!);
+  //   }
+  // }
 
 
   Future<bool> getAccessToken() async {

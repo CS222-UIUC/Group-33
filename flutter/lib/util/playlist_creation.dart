@@ -119,6 +119,17 @@ class PlaylistCreation {
             }
             break;
 
+          case Mood.fear:
+            {
+              if (0.0 <= trackFeature.valence &&
+                  trackFeature.valence < 0.4 &&
+                  trackFeature.danceability < 0.3 &&
+                  trackFeature.energy > 0.4 && trackFeature.energy < 0.7) {
+                selectedTracks.add(trackFeature.uri);
+              }
+            }
+            break;
+
           case Mood.happy:
             {
               if (0.78 <= trackFeature.valence &&

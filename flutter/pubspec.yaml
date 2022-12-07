@@ -17,12 +17,12 @@ dependencies:
   google_fonts: ^3.0.1
   http: ^0.13.5
   json_annotation: ^4.4.0
+  image_downloader: ^0.31.0
   logger: ^1.1.0
   miniplayer: ^1.0.1
   provider: ^5.0.0
   spotify_sdk: ^2.3.0
-#  added
-  camera:
+  camera: 0.9.1
   path_provider:
   path:
   image: ^3.2.2

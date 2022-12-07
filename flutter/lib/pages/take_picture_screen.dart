@@ -112,13 +112,19 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 path, // the image file, where ever you store that
               ),);
 
+            log("D");
+
             final response = await request.send();
 
             if (response.statusCode >= 200 && response.statusCode < 300) {
               final responseString = await response.stream.bytesToString();
 
+              log("C");
+
               const decoder = JsonDecoder();
               final responseMap = decoder.convert(responseString);
+
+              log("B");
 
               var topEmotion;
               if (!(responseMap['error'] as bool)) {
@@ -127,18 +133,22 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 throw Exception(responseMap['msg']);
               }
 
+              widget.logger.log(Level.info, 'Mood.$topEmotion');
+              log("A");
+
               //added
               final mood = Mood.values.firstWhere(
                     (e) => e.toString() == 'Mood.$topEmotion',);
 
-              log(mood.name);
+              widget.logger.log(Level.info, mood.name);
 
               //display on a new screen
-              await Navigator.of(context).push(
+              await Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => EmotionPage(
                     widget.logger,
                     image.path,
+                    mood,
                   ),
                 ),
               );
@@ -146,7 +156,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               throw Exception('Failed to connect to server.');
             }
           } catch (e) {
-            log(e as String);
+            widget.logger.log(Level.error, e.toString());
           }
         },
         child: const Icon(Icons.camera_alt),
