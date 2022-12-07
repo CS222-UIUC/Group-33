@@ -229,11 +229,11 @@ class _HomeState extends State<Home> {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => TakePictureScreen(camera),
+          builder: (BuildContext context) => TakePictureScreen(_logger),
         ),
       );
     } on CameraException catch (e) {
-      logError(e.code, e.description as String);
+      logError(e.code, e.description!);
     }
   }
 

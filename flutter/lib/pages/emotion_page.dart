@@ -1,12 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
-import 'package:semaphoreci_flutter_demo/pages/camera.dart';
 import 'package:semaphoreci_flutter_demo/pages/loading_page.dart';
+import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
 
 class EmotionPage extends StatefulWidget {
   final Logger logger;
-  const EmotionPage(this.logger, {Key? key}) : super(key: key);
+  final String imagePath;
+  const EmotionPage(this.logger, this.imagePath, {Key? key}) : super(key: key);
 
   @override
   State<EmotionPage> createState() => _EmotionPageState();
@@ -59,34 +61,41 @@ class _EmotionPageState extends State<EmotionPage> {
 
   Widget headerRow() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Current Mood',
-            style: GoogleFonts.inter(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Current Mood',
+              style: GoogleFonts.inter(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
   }
 
   Widget imageContainer() {
-    return ColorFiltered(
-      colorFilter: const ColorFilter.mode(
-        Colors.grey,
-        BlendMode.saturation,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 45),
-        child: Image.asset('img/default_profile_pic.jpg'),
-      ),
+    return SizedBox(
+        height: 0.5 * MediaQuery.of(context).size.height,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 45),
+          child: Image.file(File(widget.imagePath)),
+        ),
     );
+    // return ColorFiltered(
+    //   colorFilter: const ColorFilter.mode(
+    //     Colors.grey,
+    //     BlendMode.saturation,
+    //   ),
+    //   child: Padding(
+    //     padding: const EdgeInsets.symmetric(horizontal: 45),
+    //     child: Image.asset('img/default_profile_pic.jpg'),
+    //   ),
+    // );
   }
 
   Widget displayEmotion() {
@@ -189,13 +198,13 @@ class _EmotionPageState extends State<EmotionPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => Camera(widget.logger),
+        builder: (BuildContext context) => TakePictureScreen(widget.logger),
       ),
     );
   }
 
   void createPlaylistNav() {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute<void>(
         builder: (BuildContext context) => LoadingPage(widget.logger),

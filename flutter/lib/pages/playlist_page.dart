@@ -65,12 +65,13 @@ class _PlaylistPageState extends State<PlaylistPage> {
       children: [
         TextButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => EmotionPage(widget.logger),
-              ),
-            );
+            Navigator.pop(context);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute<void>(
+            //     builder: (BuildContext context) => EmotionPage(widget.logger),
+            //   ),
+            // );
           },
           child: Row(
             children: [
