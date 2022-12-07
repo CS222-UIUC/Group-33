@@ -9,6 +9,8 @@ import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
 import 'package:semaphoreci_flutter_demo/util/size_util.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
+import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -217,11 +219,36 @@ class _HomeState extends State<Home> {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => Camera(_logger),
+          // builder: (BuildContext context) => Camera(_logger),
+          //added
+          builder: (BuildContext context) => startCamera(),
         ),
       );
     }
   }
+
+  //added
+  Future<void> startCamera() async {
+    List<CameraDescription> cameras;
+    CameraDescription camera;
+    try {
+      cameras = await availableCameras();
+      camera = cameras.first;
+      if(camera == null) {
+        logError('', 'no valid cameras');
+      } else {
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => TakePictureScreen(camera),
+          ),
+        );
+      }
+    } on CameraException catch (e) {
+      logError(e.code, e.description as String);
+    }
+  }
+
 
   Future<bool> getAccessToken() async {
     try {
