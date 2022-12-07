@@ -1,4 +1,3 @@
-//added
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
@@ -7,12 +6,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:semaphoreci_flutter_demo/display_picture_screen.dart';
+import 'package:semaphoreci_flutter_demo/pages/display_picture_screen.dart';
+import 'package:semaphoreci_flutter_demo/util/mood.dart';
 
 // camera screen
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
-  const TakePictureScreen(this.camera, {super.key});
+  const TakePictureScreen(this.camera, {Key? key}) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -25,22 +25,17 @@ void logError(String code, String description) {
   log(description);
 }
 
-enum Mood {
-  angry,
-  disgust,
-  happy,
-  sad,
-  surprise,
-  neutral,
-}
-
 class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
   var cameras;
   var camera;
+
+  @override
   void initState() {
+    super.initState();
+
     //display the current output from the Camera, create a CameraController.
     _controller = CameraController(
       widget.camera,
@@ -91,7 +86,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               ..files.add(await http.MultipartFile.fromPath(
                 'file', // the label by which you must send the file
                 path, // the image file, where ever you store that
-              ));
+              ),);
 
             final response = await request.send();
 
@@ -118,7 +113,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => DisplayPictureScreen(
-                    imagePath: image.path,
+                    image.path,
                   ),
                 ),
               );

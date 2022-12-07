@@ -1,15 +1,14 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
-import 'package:semaphoreci_flutter_demo/pages/camera.dart';
+import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
 import 'package:semaphoreci_flutter_demo/util/app_styling_constants.dart';
 import 'package:semaphoreci_flutter_demo/util/background_drawer.dart';
 import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
 import 'package:semaphoreci_flutter_demo/util/size_util.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
-
-import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
 
 
 class Home extends StatefulWidget {
@@ -216,34 +215,23 @@ class _HomeState extends State<Home> {
 
   Future<void> loginButton() async {
     if (await getAccessToken()) {
-      await Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          // builder: (BuildContext context) => Camera(_logger),
-          //added
-          builder: (BuildContext context) => startCamera(),
-        ),
-      );
+      await startCamera();
     }
   }
 
-  //added
   Future<void> startCamera() async {
     List<CameraDescription> cameras;
     CameraDescription camera;
     try {
       cameras = await availableCameras();
       camera = cameras.first;
-      if(camera == null) {
-        logError('', 'no valid cameras');
-      } else {
-        await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => TakePictureScreen(camera),
-          ),
-        );
-      }
+
+      await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => TakePictureScreen(camera),
+        ),
+      );
     } on CameraException catch (e) {
       logError(e.code, e.description as String);
     }

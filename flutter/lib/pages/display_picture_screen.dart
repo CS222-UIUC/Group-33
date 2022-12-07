@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
-  const DisplayPictureScreen({super.key, required this.imagePath});
+  const DisplayPictureScreen(this.imagePath, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
