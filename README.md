@@ -1,13 +1,25 @@
 ## MoodSpot
 
 ### Introduction
-Moodspot is a tool that provides song playlists from your favorite artists that match with your current mood. Users can take a selfie of themselves, and our app will generate a mood based on the selfie and provide a Spotify playlist with your favorite songs that match your mood. 
+MoodSpot is a tool that generates custom playlists for users based on their current mood. Users can take an image of themselves, and our app will find the mood of the user based on the selfie and provide a Spotify playlist with the best songs that match the mood.
 
 ### Roles
-Divya: created camera functionality, retrieved mood from backend server
-Himnish:
+Himnish: 
+- Designed theme and Figma designs
+- Implemented Home Page UI
+- Implemented Playlist Page Player UI
+- Provided alternative Spotify authentication method.
+
+
 Khalid:
+
+
+
 Matthew:
+
+
+
+Divya: created camera functionality, retrieved mood from backend server
 
 ### installation instructions:
 install flutter: 
@@ -38,7 +50,7 @@ Pages:
 - Emotion Page:
 	- 
 - Playlist Page: 
-	- 
+	- Displays the contents of the playlist custom generated according to user's mood and listening profile. 
 
 ### Functionality
 Users can log into spotify
