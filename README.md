@@ -19,7 +19,9 @@ Matthew:
 
 
 
-Divya: created camera functionality, retrieved mood from backend server
+Divya: 
+- Created camera functionality
+- Retrieved mood from backend server
 
 ### installation instructions:
 install flutter: 
@@ -49,7 +51,8 @@ Pages:
 	- 
 - Emotion Page:
 	- 
-- Playlist Page: 
+- Playlist Page:
+	- 
 	- Displays the contents of the playlist custom generated according to user's mood and listening profile. 
 
 ### Functionality
