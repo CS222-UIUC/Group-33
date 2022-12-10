@@ -1,9 +1,9 @@
 ## MoodSpot
 
-###Introduction
+### Introduction
 Moodspot is a tool that provides song playlists from your favorite artists that match with your current mood. Users can take a selfie of themselves, and our app will generate a mood based on the selfie and provide a Spotify playlist with your favorite songs that match your mood. 
 
-###Roles
+### Roles
 Divya: created camera functionality, retrieved mood from backend server
 Himnish:
 Khalid:
