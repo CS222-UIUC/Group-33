@@ -9,6 +9,37 @@ Himnish:
 Khalid:
 Matthew:
 
+### installation instructions:
+install flutter: 
+
+install dart: 
+
+run Flutter pub get 
+
+to run app from terminal:
+- flutter devices
+- flutter run
+
+### Architecture
+Diagram: 
+
+
+Pages:
+- Home Page: 
+	- Landing Page for the app
+	- allows user to login to spotify and access app functionalities
+	- uses Dart and Flutter libraries and Spotify API
+- Camera Page:
+	 - allows user to take a selfie
+	 - sends iamge to Python server and retrieves mood string
+	 - uses Dart and Flutter libraries
+- Python Server:
+	- 
+- Emotion Page:
+	- 
+- Playlist Page: 
+	- 
+
 ### Functionality
 Users can log into spotify
 Users can take a selfie
