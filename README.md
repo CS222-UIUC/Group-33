@@ -10,14 +10,13 @@ Himnish:
 - Implemented Playlist Page Player UI
 - Provided alternative Spotify authentication method.
 
-
 Khalid:
 
 
-
 Matthew:
-
-
+- Implemented Home Page UI with Himnish
+- Implemented Python Server
+- Helped Divya create camera functionality
 
 Divya: 
 - Created camera functionality
@@ -54,10 +53,12 @@ Pages:
 	- Uses Python, Deepface, OpenCV, and Flask
 - Emotion Page:
 	- Displays the image taken, and emotion that was calculated
-	- 
-- Playlist Page:
-	- 
-	- Displays the contents of the playlist custom generated according to user's mood and listening profile. 
+	- Generates the play list upon a button click
+	- Uses Dart, Flutter, and the Spotify API
+- Playlist Page: 
+	- Displays the contents of the playlist custom generated according to user's mood and listening profile
+	- Provides the link to the contents of the generated playlist
+	- Uses Dart, and Flutter
 
 ### Functionality
 Users can log into spotify
