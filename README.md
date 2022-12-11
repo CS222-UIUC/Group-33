@@ -45,11 +45,15 @@ Pages:
 	- uses Dart and Flutter libraries and Spotify API
 - Camera Page:
 	 - allows user to take a selfie
-	 - sends iamge to Python server and retrieves mood string
+	 - sends image to Python server and retrieves mood string
 	 - uses Dart and Flutter libraries
 - Python Server:
-	- 
+	- Detects whether the image file provided has a face in it
+	- Using the detected face, obtains a mood
+	- Sends mood reading back to app
+	- Uses Python, Deepface, OpenCV, and Flask
 - Emotion Page:
+	- Displays the image taken, and emotion that was calculated
 	- 
 - Playlist Page:
 	- 
