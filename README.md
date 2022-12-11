@@ -36,6 +36,7 @@ to run app from terminal:
 ### Architecture
 Diagram: 
 
+![Diagram](flowchart.png)
 
 Pages:
 - Home Page: 
