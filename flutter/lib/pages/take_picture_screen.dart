@@ -48,7 +48,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
     CameraDescription camera;
     try {
       cameras = await availableCameras();
-      camera = cameras.first;
+      camera = cameras.length > 1 ? cameras[1] : cameras.first;
     } on CameraException catch (e) {
       logError(e.code, e.description!);
       return;
@@ -112,19 +112,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 path, // the image file, where ever you store that
               ),);
 
-            log("D");
-
             final response = await request.send();
 
             if (response.statusCode >= 200 && response.statusCode < 300) {
               final responseString = await response.stream.bytesToString();
 
-              log("C");
-
               const decoder = JsonDecoder();
               final responseMap = decoder.convert(responseString);
-
-              log("B");
 
               var topEmotion;
               if (!(responseMap['error'] as bool)) {
@@ -134,7 +128,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               }
 
               widget.logger.log(Level.info, 'Mood.$topEmotion');
-              log("A");
 
               //added
               final mood = Mood.values.firstWhere(
@@ -157,6 +150,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             }
           } catch (e) {
             widget.logger.log(Level.error, e.toString());
+            await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Error'),
+                  content: Text(e.toString()),
+                )
+            );
           }
         },
         child: const Icon(Icons.camera_alt),
