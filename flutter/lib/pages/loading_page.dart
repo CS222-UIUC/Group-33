@@ -59,9 +59,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          Center(
+      child: Center(
             child: Container(
               color: Colors.grey[300],
               width: 70,
@@ -74,9 +72,6 @@ class _LoadingPageState extends State<LoadingPage> {
               ),
             ),
           ),
-          // if (!finished) const Text('Not finished') else const Text('Finished'),
-        ],
-      ),
     );
   }
 }
