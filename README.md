@@ -28,7 +28,7 @@ Divya:
 ## Installation
 Due to the strict nature of the Spotify SDK, it won't be possible to run the app with our Spotify Dev Account. This is because the Spotify SDK requires the SHA-1 fingerprint of the device that built the package to match the one set in the Spotify dev portal. Hence, if you build the app, there will be some extra setup involved requiring you to create your own Spotify Dev Account.
 
-If you simply want to enjoy the app without all the hassle, I highly recommend simply downloading the latest release on the main repo page and installing the APK on your device. See the following [instructions](https://www.lifewire.com/install-apk-on-android-4177185). With this option, however, we will have to add your Spotify email to our Spotify Dev Account. If this is OK with you, message @khalludi with your Spotify email address and you can enjoy the app!
+If you simply want to enjoy the app without all the hassle, I highly recommend simply downloading the latest release on the main repo page and installing the APK on your device. See the following [instructions](https://www.lifewire.com/install-apk-on-android-4177185). With this option, however, we will have to add your Spotify email to our Spotify Dev Account. If this is OK with you, create an issue with your email address in the body and we will add you as soon as possible!
 
 If you really want to build the app yourself, you'll first need to create a Spotify Dev Account: https://developer.spotify.com/dashboard/login
 
