@@ -5,6 +5,7 @@ import 'package:semaphoreci_flutter_demo/model/data_models/my_playlist_info.dart
 import 'package:semaphoreci_flutter_demo/pages/emotion_page.dart';
 import 'package:semaphoreci_flutter_demo/util/audio_object.dart';
 import 'package:semaphoreci_flutter_demo/widgets/detailed_player.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaylistPage extends StatefulWidget {
   final Logger logger;
@@ -50,9 +51,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   child: listOfSongs(),
                 ),
               ),
-              const DetailedPlayer(
-                audioObject: AudioObject('Song Title', 'Artist', ''),
-              )
             ],
           ),
         ),
@@ -65,12 +63,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
       children: [
         TextButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => EmotionPage(widget.logger),
-              ),
-            );
+            Navigator.pop(context);
           },
           child: Row(
             children: [
@@ -92,7 +85,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
   }
 
   Widget imageContainer() {
-    // return Image.file(widget.myPlaylistInfo.imageFile!);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 45),
       child: ClipRRect(
@@ -126,7 +118,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
   Widget viewInSpotifyBtn() {
     return TextButton(
-      onPressed: () {},
+      onPressed: _launchUrl,
       style: TextButton.styleFrom(
         backgroundColor: const Color(0xff81b2fd),
         minimumSize: Size.zero,
@@ -148,6 +140,21 @@ class _PlaylistPageState extends State<PlaylistPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    final _url = Uri.parse('https://open.spotify.com/playlist/${widget.myPlaylistInfo.uri}');
+    if (!await canLaunch('https://open.spotify.com/playlist/${widget.myPlaylistInfo.uri}')) {
+      await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Could not open url: $_url'),
+        )
+      );
+    } else {
+      await launch('https://open.spotify.com/playlist/${widget.myPlaylistInfo.uri}');
+    }
   }
 
   Widget listOfSongs() {

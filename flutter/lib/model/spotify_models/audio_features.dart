@@ -9,7 +9,7 @@ part 'audio_features.g.dart';
 class AudioFeatures {
   AudioFeatures(this.audio_features);
 
-  List<AudioFeature> audio_features;
+  List<AudioFeature?> audio_features;
 
   factory AudioFeatures.fromJson(Map<String, dynamic> json) =>
       _$AudioFeaturesFromJson(json);

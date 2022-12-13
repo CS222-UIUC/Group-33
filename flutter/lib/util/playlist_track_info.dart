@@ -23,7 +23,9 @@ class PlaylistTrackInfo {
 
     _logger.log(Level.info, 'Playlist name: ${playlistInfo!.name}');
 
-    _logger.log(Level.info, playlistInfo.tracks.items.first.track.name);
+    if (playlistInfo.tracks.items.isNotEmpty) {
+      _logger.log(Level.info, playlistInfo.tracks.items.first.track.name);
+    }
 
     final myTracks = <MyTrack>[];
     for (var j = 0; j < playlistInfo.tracks.items.length; j++) {

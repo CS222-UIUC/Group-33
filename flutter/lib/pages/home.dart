@@ -1,8 +1,9 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
-import 'package:semaphoreci_flutter_demo/pages/camera.dart';
+import 'package:semaphoreci_flutter_demo/pages/take_picture_screen.dart';
 import 'package:semaphoreci_flutter_demo/util/app_styling_constants.dart';
 import 'package:semaphoreci_flutter_demo/util/background_drawer.dart';
 import 'package:semaphoreci_flutter_demo/util/color_constant.dart';
@@ -217,11 +218,30 @@ class _HomeState extends State<Home> {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => Camera(_logger),
+          builder: (BuildContext context) => TakePictureScreen(_logger),
         ),
       );
     }
   }
+
+  // Future<void> startCamera() async {
+  //   List<CameraDescription> cameras;
+  //   CameraDescription camera;
+  //   try {
+  //     cameras = await availableCameras();
+  //     camera = cameras.first;
+  //
+  //     await Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute<void>(
+  //         builder: (BuildContext context) => TakePictureScreen(_logger),
+  //       ),
+  //     );
+  //   } on CameraException catch (e) {
+  //     logError(e.code, e.description!);
+  //   }
+  // }
+
 
   Future<bool> getAccessToken() async {
     try {

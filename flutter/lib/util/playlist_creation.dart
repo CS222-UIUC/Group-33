@@ -33,7 +33,9 @@ class PlaylistCreation {
   Future<String> createPlaylist(List<String> trackUris, Mood mood) async {
     final userProfile = await getUserProfile();
 
-    final newPlaylist = await postNewPlaylist(userProfile!.id, 'Mood $mood');
+    final emotion = mood.name.split('.').last;
+    final playlistName = '${emotion[0].toUpperCase()}${emotion.substring(1)}Spot';
+    final newPlaylist = await postNewPlaylist(userProfile!.id, playlistName);
 
     trackUris.shuffle();
     await addItemsToPlaylist(newPlaylist!.id, trackUris);
@@ -64,6 +66,7 @@ class PlaylistCreation {
       final trackSubset = topTracks.sublist(i, min(topTracks.length, i + 50));
       final trackFeatures = await getAudioFeatures(trackSubset.join(','));
       for (final trackFeature in trackFeatures!.audio_features) {
+        if (trackFeature == null) continue;
         switch (mood) {
           case Mood.sad:
             {
@@ -114,6 +117,17 @@ class PlaylistCreation {
                   trackFeature.valence < 0.97 &&
                   trackFeature.danceability > 0.5 &&
                   trackFeature.energy > 0.5) {
+                selectedTracks.add(trackFeature.uri);
+              }
+            }
+            break;
+
+          case Mood.fear:
+            {
+              if (0.0 <= trackFeature.valence &&
+                  trackFeature.valence < 0.4 &&
+                  trackFeature.danceability < 0.3 &&
+                  trackFeature.energy > 0.4 && trackFeature.energy < 0.7) {
                 selectedTracks.add(trackFeature.uri);
               }
             }
@@ -206,7 +220,9 @@ class PlaylistCreation {
 
     final audioFeaturesMap = await callSpotify(url);
     logMessage(audioFeaturesMap.toString());
-    return AudioFeatures.fromJson(audioFeaturesMap!);
+    return audioFeaturesMap == null
+        ? AudioFeatures([])
+        : AudioFeatures.fromJson(audioFeaturesMap);
   }
 
   Future<TopTracks?> getTopTracks(String artistUri) async {

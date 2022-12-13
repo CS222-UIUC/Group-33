@@ -8,7 +8,8 @@ import 'package:semaphoreci_flutter_demo/util/playlist_track_info.dart';
 
 class LoadingPage extends StatefulWidget {
   final Logger logger;
-  const LoadingPage(this.logger, {Key? key}) : super(key: key);
+  final Mood mood;
+  const LoadingPage(this.logger, this.mood, {Key? key}) : super(key: key);
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
@@ -32,7 +33,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
   Future<void> setupPlaylist() async {
     await playlistCreation
-        .createSpotifyPlaylist(Mood.angry)
+        .createSpotifyPlaylist(widget.mood)
         .then((String value) {
       playlistId = value;
     });
@@ -40,30 +41,37 @@ class _LoadingPageState extends State<LoadingPage> {
     final myPlaylistInfo = await playlistTrackInfo.getTracks(playlistId);
 
     _logger.log(Level.info, playlistId);
-    setState(() {
-      finished = true;
+    // setState(() {
+    //   finished = true;
 
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(
+      // Future.delayed(const Duration(seconds: 2), () {
+        await Navigator.pushReplacement(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) =>
                 PlaylistPage(widget.logger, myPlaylistInfo),
           ),
         );
-      });
-    });
+      // });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          const Text('Loading Page'),
-          if (!finished) const Text('Not finished') else const Text('Finished'),
-        ],
-      ),
+      child: Center(
+            child: Container(
+              color: Colors.grey[300],
+              width: 70,
+              height: 70,
+              child: const Padding(
+                padding: EdgeInsets.all(5),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+          ),
     );
   }
 }

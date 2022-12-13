@@ -9,7 +9,9 @@ part of 'audio_features.dart';
 AudioFeatures _$AudioFeaturesFromJson(Map<String, dynamic> json) =>
     AudioFeatures(
       (json['audio_features'] as List<dynamic>)
-          .map((e) => AudioFeature.fromJson(e as Map<String, dynamic>))
+          .map((e) => e == null
+              ? null
+              : AudioFeature.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
