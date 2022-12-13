@@ -5,10 +5,11 @@ MoodSpot is a tool that generates custom playlists for users based on their curr
 
 ### Roles
 Himnish: 
-- Designed theme and Figma designs
+- Designed overall app themes and Figma designs
 - Implemented Home Page UI
-- Implemented Playlist Page Player UI
-- Provided alternative Spotify authentication method.
+- Implemented Playlist Page and Player UI
+- Provided alternative Spotify authentication method
+- Did app testing.
 
 Khalid:
 - Performed OAuth 2.0 protocol to authenticate with Spotify
