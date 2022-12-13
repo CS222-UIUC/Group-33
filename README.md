@@ -9,7 +9,7 @@ Himnish:
 - Implemented Home Page UI
 - Implemented Playlist Page and Player UI
 - Provided alternative Spotify authentication method
-- Did app testing.
+- Tested app functionalities
 
 Khalid:
 - Performed OAuth 2.0 protocol to authenticate with Spotify
