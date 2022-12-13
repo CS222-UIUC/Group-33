@@ -1,0 +1,76 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Flutter_CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events for the "main" branch and 'flutter' folder
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'flutter/**'
+    
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'flutter/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  FLUTTER_PROJ_DIR: flutter
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  format_lint_unit_tests:
+    # The type of runner that the job will run on
+    runs-on: macos-11
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+        - uses: actions/checkout@v3
+        - uses: subosito/flutter-action@v2
+          with:
+            channel: 'stable'
+            cache: true
+            cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
+            cache-path: ${{ runner.tool_cache }}/flutter/':channel:-:version:-:arch:' # optional, change this to specify the cache path
+            architecture: x64
+        
+        - name: Get Flutter dependencies
+          run: cd $FLUTTER_PROJ_DIR && flutter pub get
+        
+        - name: Create secret-file.txt from B64_SECRET1
+          id: secret-file1
+          run: |
+            $secretFile = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath "flutter/.env"; 
+            $encodedBytes = [System.Convert]::FromBase64String($env:SECRET_DATA1); 
+            Set-Content $secretFile -Value $encodedBytes -AsByteStream;
+            $secretFileHash = Get-FileHash $secretFile;
+            Write-Output "::set-output name=SECRET_FILE::$secretFile";
+            Write-Output "::set-output name=SECRET_FILE_HASH::$($secretFileHash.Hash)";
+            Write-Output "Secret file $secretFile has hash $($secretFileHash.Hash)";
+            $expectedHash = "59C285C674C0714E4F54B5F6805E73E0523FA6E87E3EDA248B8B1BE3A8C7826E"; # Set to output when generating the Base64 string (and hash)
+            if ($secretFileHash.Hash -ne $expectedHash) { Write-Output "::error file=$($secretFile)::Hash doesn't match"; Write-Output "Hash doesn't match"; exit 10; }
+          shell: pwsh
+          env:
+            SECRET_DATA1: ${{ secrets.B64_SECRET1 }}
+        
+        - name: Format Flutter files
+          run: cd $FLUTTER_PROJ_DIR && flutter format --set-exit-if-changed .
+        
+        - name: Static code analysis
+          run: cd $FLUTTER_PROJ_DIR && flutter analyze .
+        
+        - name: Run unit and widget tests
+          run: cd $FLUTTER_PROJ_DIR && flutter test test  
+  
+        - name: Generate test coverage
+          run: cd $FLUTTER_PROJ_DIR && flutter test --coverage ./lib
+
+        - name: Upload files to codecov
+          uses: codecov/codecov-action@v3.1.0
+          with:
+            directory: ${{ env.FLUTTER_PROJ_DIR }}/coverage/

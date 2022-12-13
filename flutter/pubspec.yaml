@@ -1,0 +1,44 @@
+name: semaphoreci_flutter_demo
+description: SemaphoreCI Flutter Demo
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+#  sdk: ">=2.17.0 <3.0.0" #this is what I have in my prev branch
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.0.2
+  google_fonts: ^3.0.1
+  http: ^0.13.5
+  json_annotation: ^4.4.0
+  image_downloader: ^0.31.0
+  logger: ^1.1.0
+  miniplayer: ^1.0.1
+  provider: ^5.0.0
+  spotify_sdk: ^2.3.0
+  camera: 0.9.1
+  path_provider:
+  path:
+  image: ^3.2.2
+  url_launcher:
+
+dev_dependencies:
+  build_runner: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  json_serializable: ^6.0.0
+  very_good_analysis: ^3.0.2
+
+flutter:
+  assets:
+    - .env
+    - img/
+  uses-material-design: true
