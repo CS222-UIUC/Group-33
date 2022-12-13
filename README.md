@@ -11,7 +11,10 @@ Himnish:
 - Provided alternative Spotify authentication method.
 
 Khalid:
-
+- Performed OAuth 2.0 protocol to authenticate with Spotify
+- Designed and implemented the Emotion Page + Playlist Page
+- Setup the Flutter CI w/ automated tests, code linter, and security checks
+- Built the backend algorithm to create curated playlists based on user's emotions
 
 Matthew:
 - Implemented Home Page UI with Himnish
@@ -22,16 +25,36 @@ Divya:
 - Created camera functionality
 - Retrieved mood from backend server
 
-### installation instructions:
-install flutter: 
+## Installation
+Due to the strict nature of the Spotify SDK, it won't be possible to run the app with our Spotify Dev Account. This is because the Spotify SDK requires the SHA-1 fingerprint of the device that built the package to match the one set in the Spotify dev portal. Hence, if you build the app, there will be some extra setup involved requiring you to create your own Spotify Dev Account.
 
-install dart: 
+If you simply want to enjoy the app without all the hassle, I highly recommend simply downloading the latest release on the main repo page and installing the APK on your device. See the following [instructions](https://www.lifewire.com/install-apk-on-android-4177185). With this option, however, we will have to add your Spotify email to our Spotify Dev Account. If this is OK with you, message @khalludi with your Spotify email address and you can enjoy the app!
 
-run Flutter pub get 
+If you really want to build the app yourself, you'll first need to create a Spotify Dev Account: https://developer.spotify.com/dashboard/login
 
-to run app from terminal:
-- flutter devices
-- flutter run
+Next, you should be provided with a client id. In order for the app to build, you will need to add this along with Moodspot's redirect URL in a new file called `.env`. This should be placed under the `flutter/` folder of our repo.
+
+```
+CLIENT_ID=<your_client_id>
+REDIRECT_URL=http://moodspot.com/auth
+```
+
+One last thing with the Spotify portal. Under `Edit Settings`, you should add `http://moodspot.com/auth` to the redirect url portion. Under packages, you should add the package name `uiuc.group33.moodspot` and your device's SHA-1 fingerprint. If you're unsure how to get your fingerprint, see this [link](https://stackoverflow.com/questions/51845559/generate-sha-1-for-flutter-react-native-android-native-app).
+
+Finally, time to build the app.
+
+### Building the App
+
+Building the app should be the same as building any other Flutter project. First, make sure you have flutter and dart installed. [Click here for instructions.](https://docs.flutter.dev/get-started/install)
+
+Make sure you are in the `flutter/` directory. Then, get dependencies and install. Type the following commands in the Terminal or Command prompt.
+```
+> cd flutter/
+> flutter pub get
+> flutter install
+```
+
+If every command works, you should see our app running and be able to successfully authenticate yourself. By default, the Spotify SDK will only allow a Spotify account with the same email to authenticate and use our app. If you would like to try different users, you will need to add each users' Spotify email address to your Spotify dev portal. 
 
 ### Architecture
 Diagram: 
